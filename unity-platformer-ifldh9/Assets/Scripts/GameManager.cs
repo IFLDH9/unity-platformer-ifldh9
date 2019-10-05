@@ -59,9 +59,14 @@ public class GameManager : MonoBehaviour
                      Debug.Log(string.Format("Co-ords of player is [X: {0} Y: {0}]", player.transform.position.x,player.transform.position.y));
                         Debug.Log(string.Format("distance {0}", Vector3.Distance(playerPos, pos)));
                         TileBase tile = map.tilemap.GetTile(posInt);
-                         if (map.tilemap.HasTile(posInt) && Vector3.Distance(playerPos,pos)<3.0f)
+                   // Debug.Log(string.Format("tile {0}", tile.name));
+                    Debug.Log(string.Format("tile {0}", map.map[posInt.x,posInt.y]));
+                    if (map.tilemap.HasTile(posInt) && Vector3.Distance(playerPos,pos)<3.0f)
             {
+              //  Debug.Log(string.Format("poz {0}", posInt.x ));
                 map.map[posInt.x,posInt.y] = 0;
+                map.tilemap.SetTile(posInt, null);
+               map.UpdateMap(map.map, map.tilemap,posInt.x,posInt.y);
             }
                 //waitingButtonUp = true;
                 timer = 0;
@@ -86,7 +91,8 @@ public class GameManager : MonoBehaviour
             Vector3Int posInt = new Vector3Int((int)pos.x, (int)pos.y, (int)pos.z);
             Vector3 playerPos = new Vector3(player.transform.position.x, player.transform.position.y, 0);
             Vector3Int playerPosInt = new Vector3Int((int)player.transform.position.x,(int)player.transform.position.y,0);
-            if (!map.tilemap.HasTile(posInt) && playerPosInt != posInt && posInt != new Vector3Int(playerPosInt.x,playerPosInt.y+1,0))
+            if (!map.tilemap.HasTile(posInt) && playerPosInt != posInt &&
+                posInt != new Vector3Int(playerPosInt.x,playerPosInt.y+1,0) && hasTileAround(posInt))
             {
                 map.map[posInt.x, posInt.y] = 1;
                 map.tilemap.SetTile(posInt,map.dirtBlock);
@@ -94,6 +100,16 @@ public class GameManager : MonoBehaviour
         }
 
 
+    }
+
+    public bool hasTileAround(Vector3Int posInt)
+    {
+        if(map.tilemap.HasTile(new Vector3Int(posInt.x+1,posInt.y,posInt.z)) || map.tilemap.HasTile(new Vector3Int(posInt.x-1, posInt.y, posInt.z)) ||
+            map.tilemap.HasTile(new Vector3Int(posInt.x, posInt.y+1, posInt.z)) || map.tilemap.HasTile(new Vector3Int(posInt.x, posInt.y-1, posInt.z)))
+        {
+            return true;
+        }
+        return false;
     }
 
 

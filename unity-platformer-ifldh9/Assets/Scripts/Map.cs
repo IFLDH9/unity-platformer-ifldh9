@@ -16,7 +16,7 @@ public class Map : MonoBehaviour
 
     void FixedUpdate()
     {
-        UpdateMap(map, tilemap);
+       // UpdateMap(map, tilemap);
     }
 
 
@@ -41,7 +41,7 @@ public class Map : MonoBehaviour
 
     public void GenerateMap()
     {
-        map = new int[columns, rows];
+       // map = new int[columns, rows];
         GenerateBasicStructure();
         RenderMap(map, tilemap);
     }
@@ -81,9 +81,9 @@ public class Map : MonoBehaviour
       //  map = SmoothMooreCellularAutomata(map, false, 130);
     }
 
-    public int[,] GenerateArray(int width, int height, bool empty)
+    public int[,] GenerateArray(int columns, int rows, bool empty)
     {
-        int[,] map = new int[width, height];
+        int[,] map = new int[columns, rows];
 
         for (int x = 0; x < map.GetUpperBound(0)/2; x++)
         {
@@ -191,8 +191,26 @@ public class Map : MonoBehaviour
         return map;
     }
 
-    public static void UpdateMap(int[,] map, Tilemap tilemap) //Takes in our map and tilemap, setting null tiles where needed
+    public void UpdateMap(int[,] map, Tilemap tilemap, int posX, int posY) //Takes in our map and tilemap, setting null tiles where needed
     {
+
+        if(posX == 0 || posX == 1)
+        {
+            posX = 2; 
+        }else  if(posX > rows-3)
+        {
+            posX = rows - 3;
+        }
+
+        if (posY == 0 || posY == 1)
+        {
+            posY = 2;
+        }else 
+        if (posY <columns-3)
+        {
+            posY = columns - 3;
+        }
+
         for (int x = 0; x < map.GetUpperBound(0); x++)
         {
             for (int y = 0; y < map.GetUpperBound(1); y++)
