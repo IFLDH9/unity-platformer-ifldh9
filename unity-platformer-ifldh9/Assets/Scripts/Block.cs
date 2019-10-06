@@ -19,6 +19,7 @@ public class Block : RuleTile
         if (path == "")
             return;
         AssetDatabase.CreateAsset(ScriptableObject.CreateInstance<Block>(), path);
+        
     }
 #endif
 

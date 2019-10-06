@@ -14,7 +14,7 @@ public class DirtBlock : Block
 #if UNITY_EDITOR
     // The following is a helper that adds a menu item to create a RoadTile Asset
     [MenuItem("Assets/Create/DirtBlock")]
-    public static void CreateRoadTile()
+    public static void CreateDirtBlock()
     {
         string path = EditorUtility.SaveFilePanelInProject("Save DirtBlock", "New Dirt Black", "Asset", "Save Dirt Block", "Assets");
         if (path == "")

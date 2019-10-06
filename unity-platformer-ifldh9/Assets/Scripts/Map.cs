@@ -17,6 +17,7 @@ public class Map : MonoBehaviour
     void FixedUpdate()
     {
        // UpdateMap(map, tilemap);
+       
     }
 
 
@@ -93,9 +94,9 @@ public class Map : MonoBehaviour
             }
         }
 
-        for (int x = map.GetUpperBound(0) / 2; x < map.GetUpperBound(0)-4; x++)
+        for (int x = map.GetUpperBound(0) / 2; x < map.GetUpperBound(0); x++)
         {
-            for (int y = map.GetUpperBound(1) / 2; y < map.GetUpperBound(1); y++)
+            for (int y = map.GetUpperBound(1) / 2; y < map.GetUpperBound(1)-20; y++)
             {
                 if (empty)
                 {
