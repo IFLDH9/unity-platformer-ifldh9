@@ -33,7 +33,7 @@ public class CharacterController2D : MonoBehaviour
             OnLandEvent = new UnityEvent();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         bool wasGrounded = m_Grounded;
         m_Grounded = false;

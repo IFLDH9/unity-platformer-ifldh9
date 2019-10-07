@@ -19,8 +19,6 @@ public class Map : MonoBehaviour
        // UpdateMap(map, tilemap);
        
     }
-
-
     public void RenderMap(int[,] map, Tilemap tilemap)
     {
         //Clear the map (ensures we dont overlap)
@@ -52,11 +50,14 @@ public class Map : MonoBehaviour
     {
         map = GenerateArray(columns, rows, true);
 
-        int random = Random.Range(0, 2);
+        int random = Random.Range(0, 3);
         float seed = Random.Range(1.0f, 9000.0f);
+
+
         if (random == 0)
         {
             int interval = Random.Range(0, 100);
+           // map = PerlinNoise(map,seed);
             map = PerlinNoiseSmooth(map, seed, interval);
         }
         else if (random == 1)
@@ -86,17 +87,17 @@ public class Map : MonoBehaviour
     {
         int[,] map = new int[columns, rows];
 
-        for (int x = 0; x < map.GetUpperBound(0)/2; x++)
+        for (int x = 0; x < map.GetUpperBound(0); x++)
         {
-            for (int y = 0; y < map.GetUpperBound(1)/2; y++)
+            for (int y = 0; y < map.GetUpperBound(1)/8*5; y++)
             {
                     map[x, y] = 1;
             }
         }
 
-        for (int x = map.GetUpperBound(0) / 2; x < map.GetUpperBound(0); x++)
+        for (int x = map.GetUpperBound(0) ; x < map.GetUpperBound(0); x++)
         {
-            for (int y = map.GetUpperBound(1) / 2; y < map.GetUpperBound(1)-20; y++)
+            for (int y = map.GetUpperBound(1) / 8 * 5; y < map.GetUpperBound(1)-5; y++)
             {
                 if (empty)
                 {

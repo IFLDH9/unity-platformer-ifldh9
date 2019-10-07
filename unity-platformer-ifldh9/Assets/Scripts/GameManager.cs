@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.Experimental.Rendering.LWRP;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,9 +10,12 @@ public class GameManager : MonoBehaviour
     public Camera cam;
     public EnviromentController enviromentMap;
     public Vector3Int focus;
+    public Light2D globalLight2D;
 
     public float timer = 0;
-    public bool waitingButtonUp = false;
+
+    public bool afternoon = true;
+    public float dayNightTimer = 1.0f;
 
     void Awake()
     {
@@ -31,8 +35,8 @@ public class GameManager : MonoBehaviour
         enviromentMap = GameObject.Find("EnviromentMap").GetComponent<EnviromentController>();
         cam = Camera.main;
        InitGame();
-        respawnPlayer();
-        //player.GetComponent<Transform>().position = new Vector3Int(200, 150, 0);
+       respawnPlayer();
+      //  player.GetComponent<Transform>().position = new Vector3Int(0, 198, 0);
     }
 
     void InitGame()
@@ -45,6 +49,7 @@ public class GameManager : MonoBehaviour
     
     void Update()
     {
+        timePasses();
         Transform playerTrans = player.GetComponent<Transform>();
         if (Input.GetMouseButton(0))
         {
@@ -117,18 +122,19 @@ public class GameManager : MonoBehaviour
     public void respawnPlayer()
     {
 
-        int randomX;
-        int randomY;
+        int randomX = 0;
+        int randomY = 0;
         bool foundASpot = false;
 
-        while(!foundASpot)
+        for(int i = 0; !foundASpot;++i)
         {
-            randomX = Random.Range(0, map.map.GetUpperBound(0));
-            randomY = Random.Range(map.map.GetUpperBound(1)/2, map.map.GetUpperBound(1));
+
+            randomX = Random.Range(0, 200);
+            randomY = Random.Range(0, map.map.GetUpperBound(1) - 1);
             for (int y = randomY; y < map.map.GetUpperBound(1)-4; y++)
             {
                 if(map.tilemap.HasTile(new Vector3Int(randomX,y,0)) && !map.tilemap.HasTile(new Vector3Int(randomX, y+1, 0))
-                    && !map.tilemap.HasTile(new Vector3Int(randomX, y+2, 0)))
+                    )
             {
                     player.GetComponent<Transform>().position=new Vector3Int(randomX, y+1,0);
                     Debug.Log(string.Format("Co-ords [X: {0} Y: {0}]", randomX, y));
@@ -136,9 +142,35 @@ public class GameManager : MonoBehaviour
                     break;
             }
             }
+
+        } 
         }
-           
+
+    public void timePasses()
+    {
+        if(afternoon)
+        {
+            dayNightTimer -= (Time.deltaTime/720.0f)*0.8f;
+
+            if(dayNightTimer<0.2f)
+            {
+                dayNightTimer = 0.2f;
+                afternoon = false;
+            }
+            globalLight2D.intensity = dayNightTimer;
+        }else
+        {
+            dayNightTimer += (Time.deltaTime / 720.0f)*0.8f;
+            if (dayNightTimer > 1.0f)
+            {
+                dayNightTimer = 1.0f;
+                afternoon = true;
+            }
+            globalLight2D.intensity = dayNightTimer;
         }
+    }
+
+
     }
 
 
