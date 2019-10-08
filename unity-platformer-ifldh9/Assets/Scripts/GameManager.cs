@@ -10,12 +10,10 @@ public class GameManager : MonoBehaviour
     public Camera cam;
     public EnviromentController enviromentMap;
     public Vector3Int focus;
-    public Light2D globalLight2D;
+    public LightController lightController;
 
     public float timer = 0;
 
-    public bool afternoon = true;
-    public float dayNightTimer = 1.0f;
 
     void Awake()
     {
@@ -31,9 +29,11 @@ public class GameManager : MonoBehaviour
 
         DontDestroyOnLoad(gameObject);
         // player = GetComponent<Transform>();
-        map = GameObject.Find("Map").GetComponent<Map>();
-        enviromentMap = GameObject.Find("EnviromentMap").GetComponent<EnviromentController>();
+        map =GetComponent<Map>();
+        enviromentMap = GetComponent<EnviromentController>();
         cam = Camera.main;
+        lightController = GetComponent<LightController>();
+
        InitGame();
        respawnPlayer();
       //  player.GetComponent<Transform>().position = new Vector3Int(0, 198, 0);
@@ -41,7 +41,6 @@ public class GameManager : MonoBehaviour
 
     void InitGame()
     {
-
         map.GenerateMap();
         enviromentMap.createEnviroment(map.map);
     }
@@ -49,7 +48,6 @@ public class GameManager : MonoBehaviour
     
     void Update()
     {
-        timePasses();
         Transform playerTrans = player.GetComponent<Transform>();
         if (Input.GetMouseButton(0))
         {
@@ -57,12 +55,22 @@ public class GameManager : MonoBehaviour
             Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             pos.z = 0;
             Vector3Int posInt = new Vector3Int((int)pos.x, (int)pos.y, (int)pos.z);
+            Vector3 playerPos = new Vector3(playerTrans.position.x, playerTrans.position.y, 0);
             
-            if (focus == posInt)
+
+            Light2D torch = lightController.getTorch(posInt);
+            if (Vector3.Distance(playerPos, pos) < 3.0f && torch != null)
+            {
+                lightController.removeTorch(torch);
+                enviromentMap.torchTileMap.SetTile(posInt, null);
+            }
+
+
+           if (focus == posInt)
             {
                 if (timer > 0.7f)
                 {
-                    Vector3 playerPos = new Vector3(playerTrans.position.x, playerTrans.position.y, 0);
+                   
                     Debug.Log(string.Format("Co-ords of mouse is [X: {0} Y: {0}]", pos.x, pos.y));
                     Debug.Log(string.Format("Co-ords of player is [X: {0} Y: {0}]", playerTrans.position.x, playerTrans.position.y));
                     Debug.Log(string.Format("distance {0}", Vector3.Distance(playerPos, pos)));
@@ -107,6 +115,23 @@ public class GameManager : MonoBehaviour
                 map.tilemap.SetTile(posInt,map.dirtBlock);
             }
         }
+
+        if(Input.GetMouseButtonDown(2))
+        {
+            Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            pos.z = 0;
+            Vector3Int posInt = new Vector3Int((int)pos.x, (int)pos.y, (int)pos.z);
+            Vector3 playerPos = new Vector3(playerTrans.position.x, playerTrans.position.y, 0);
+            if (lightController.getTorch(posInt)== null && Vector3.Distance(playerPos, pos) < 3.0f 
+                && map.tilemap.HasTile(posInt) && !enviromentMap.torchTileMap.HasTile(posInt))
+            {
+                lightController.putDownTorch(posInt);
+                enviromentMap.torchTileMap.SetTile(posInt,enviromentMap.normalTorch);
+            }
+
+
+
+        }
     }
 
     public bool hasTileAround(Vector3Int posInt)
@@ -144,33 +169,7 @@ public class GameManager : MonoBehaviour
             }
 
         } 
-        }
-
-    public void timePasses()
-    {
-        if(afternoon)
-        {
-            dayNightTimer -= (Time.deltaTime/720.0f)*0.8f;
-
-            if(dayNightTimer<0.2f)
-            {
-                dayNightTimer = 0.2f;
-                afternoon = false;
-            }
-            globalLight2D.intensity = dayNightTimer;
-        }else
-        {
-            dayNightTimer += (Time.deltaTime / 720.0f)*0.8f;
-            if (dayNightTimer > 1.0f)
-            {
-                dayNightTimer = 1.0f;
-                afternoon = true;
-            }
-            globalLight2D.intensity = dayNightTimer;
-        }
-    }
-
-
+      }
     }
 
 
