@@ -27,18 +27,18 @@ public class LightController : MonoBehaviour
     {
         if (afternoon)
         {
-            dayNightTimer -= (Time.deltaTime / 50.0f) * 0.9f;
+            dayNightTimer -= (Time.deltaTime / 50.0f) / 0.9f;
 
-            if (dayNightTimer < 0.2f)
+            if (dayNightTimer < 0.1f)
             {
-                dayNightTimer = 0.2f;
+                dayNightTimer = 0.1f;
                 afternoon = false;
             }
             globalLight2D.intensity = dayNightTimer;
         }
         else
         {
-            dayNightTimer += (Time.deltaTime / 50.0f) * 0.9f;
+            dayNightTimer += (Time.deltaTime / 50.0f)/ 0.9f;
             if (dayNightTimer > 1.0f)
             {
                 dayNightTimer = 1.0f;
