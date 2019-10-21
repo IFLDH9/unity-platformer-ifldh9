@@ -35,14 +35,14 @@ public class GameManager : MonoBehaviour
         lightController = GetComponent<LightController>();
 
        InitGame();
-       respawnPlayer();
+       RespawnPlayer();
       //  player.GetComponent<Transform>().position = new Vector3Int(0, 198, 0);
     }
 
     void InitGame()
     {
         map.GenerateMap();
-        enviromentMap.createEnviroment(map.map);
+        enviromentMap.CreateEnviroment(map.map);
     }
 
     
@@ -58,10 +58,10 @@ public class GameManager : MonoBehaviour
             Vector3 playerPos = new Vector3(playerTrans.position.x, playerTrans.position.y, 0);
             
 
-            Light2D torch = lightController.getTorch(posInt);
+            Light2D torch = lightController.GetTorch(posInt);
             if (Vector3.Distance(playerPos, pos) < 3.0f && torch != null)
             {
-                lightController.removeTorch(torch);
+                lightController.RemoveTorch(torch);
                 enviromentMap.torchTileMap.SetTile(posInt, null);
             }
 
@@ -70,7 +70,6 @@ public class GameManager : MonoBehaviour
             {
                 if (timer > 0.7f)
                 {
-                   
                     Debug.Log(string.Format("Co-ords of mouse is [X: {0} Y: {0}]", pos.x, pos.y));
                     Debug.Log(string.Format("Co-ords of player is [X: {0} Y: {0}]", playerTrans.position.x, playerTrans.position.y));
                     Debug.Log(string.Format("distance {0}", Vector3.Distance(playerPos, pos)));
@@ -109,7 +108,7 @@ public class GameManager : MonoBehaviour
             Vector3 playerPos = new Vector3(playerTrans.position.x, playerTrans.position.y, 0);
             Vector3Int playerPosInt = new Vector3Int((int)playerTrans.position.x,(int)playerTrans.position.y,0);
             if (!map.tilemap.HasTile(posInt) && playerPosInt != posInt &&
-                posInt != new Vector3Int(playerPosInt.x,playerPosInt.y+1,0) && hasTileAround(posInt))
+                posInt != new Vector3Int(playerPosInt.x,playerPosInt.y+1,0) && HasTileAround(posInt))
             {
                 map.map[posInt.x, posInt.y] = 1;
                 map.tilemap.SetTile(posInt,map.dirtBlock);
@@ -122,19 +121,16 @@ public class GameManager : MonoBehaviour
             pos.z = 0;
             Vector3Int posInt = new Vector3Int((int)pos.x, (int)pos.y, (int)pos.z);
             Vector3 playerPos = new Vector3(playerTrans.position.x, playerTrans.position.y, 0);
-            if (lightController.getTorch(posInt)== null && Vector3.Distance(playerPos, pos) < 3.0f 
+            if (lightController.GetTorch(posInt)== null && Vector3.Distance(playerPos, pos) < 3.0f 
                 && map.tilemap.HasTile(posInt) && !enviromentMap.torchTileMap.HasTile(posInt))
             {
-                lightController.putDownTorch(posInt);
+                lightController.PutDownTorch(posInt);
                 enviromentMap.torchTileMap.SetTile(posInt,enviromentMap.normalTorch);
             }
-
-
-
         }
     }
 
-    public bool hasTileAround(Vector3Int posInt)
+    public bool HasTileAround(Vector3Int posInt)
     {
         if(map.tilemap.HasTile(new Vector3Int(posInt.x+1,posInt.y,posInt.z)) || map.tilemap.HasTile(new Vector3Int(posInt.x-1, posInt.y, posInt.z)) ||
             map.tilemap.HasTile(new Vector3Int(posInt.x, posInt.y+1, posInt.z)) || map.tilemap.HasTile(new Vector3Int(posInt.x, posInt.y-1, posInt.z)))
@@ -144,7 +140,7 @@ public class GameManager : MonoBehaviour
         return false;
     }
 
-    public void respawnPlayer()
+    public void RespawnPlayer()
     {
 
         int randomX = 0;
@@ -153,7 +149,6 @@ public class GameManager : MonoBehaviour
 
         for(int i = 0; !foundASpot;++i)
         {
-
             randomX = Random.Range(0, 200);
             randomY = Random.Range(0, map.map.GetUpperBound(1) - 1);
             for (int y = randomY; y < map.map.GetUpperBound(1)-4; y++)

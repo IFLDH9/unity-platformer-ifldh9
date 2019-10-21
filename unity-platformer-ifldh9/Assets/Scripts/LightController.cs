@@ -20,10 +20,10 @@ public class LightController : MonoBehaviour
 
     void Update()
     {
-        timePasses();
+        TimePasses();
     }
 
-    public void timePasses()
+    public void TimePasses()
     {
         if (afternoon)
         {
@@ -49,13 +49,13 @@ public class LightController : MonoBehaviour
     }
 
 
-    public void putDownTorch(Vector3Int pos)
+    public void PutDownTorch(Vector3Int pos)
     {
        Light2D torch = Instantiate(torchLight2D,pos,Quaternion.identity);
        torches.Add(torch);
     }
 
-    public Light2D getTorch(Vector3Int pos)
+    public Light2D GetTorch(Vector3Int pos)
     {
         foreach (Light2D torch in torches)
         {
@@ -67,7 +67,7 @@ public class LightController : MonoBehaviour
         return null;
     }
 
-    public void removeTorch(Light2D torch)
+    public void RemoveTorch(Light2D torch)
     {
         torches.Remove(torch);
         Destroy(torch.gameObject);

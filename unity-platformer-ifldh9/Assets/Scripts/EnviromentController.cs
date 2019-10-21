@@ -22,7 +22,7 @@ public class EnviromentController : MonoBehaviour
         
     }
 
-    public void createEnviroment(int[,] map)
+    public void CreateEnviroment(int[,] map)
     {
         treeTileMap.SetTile(new Vector3Int(0, 0, 0), trees[1]);
         treeTileMap.SetTile(new Vector3Int(0, 4, 0), trees[1]);
