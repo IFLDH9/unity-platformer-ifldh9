@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        DontDestroyOnLoad(gameObject);
+       // DontDestroyOnLoad(gameObject);
         // player = GetComponent<Transform>();
         map =GetComponent<Map>();
         enviromentMap = GetComponent<EnviromentController>();
