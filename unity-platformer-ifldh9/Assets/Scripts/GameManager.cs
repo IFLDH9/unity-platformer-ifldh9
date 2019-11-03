@@ -57,14 +57,12 @@ public class GameManager : MonoBehaviour
             Vector3Int posInt = new Vector3Int((int)pos.x, (int)pos.y, (int)pos.z);
             Vector3 playerPos = new Vector3(playerTrans.position.x, playerTrans.position.y, 0);
             
-
             Light2D torch = lightController.GetTorch(posInt);
             if (Vector3.Distance(playerPos, pos) < 3.0f && torch != null)
             {
                 lightController.RemoveTorch(torch);
                 enviromentMap.torchTileMap.SetTile(posInt, null);
             }
-
 
            if (focus == posInt)
             {
@@ -74,11 +72,13 @@ public class GameManager : MonoBehaviour
                     Debug.Log(string.Format("Co-ords of player is [X: {0} Y: {0}]", playerTrans.position.x, playerTrans.position.y));
                     Debug.Log(string.Format("distance {0}", Vector3.Distance(playerPos, pos)));
                     TileBase tile = map.tilemap.GetTile(posInt);
+                    Block block = (Block)tile;
                     // Debug.Log(string.Format("tile {0}", tile.name));
                     Debug.Log(string.Format("tile {0}", map.map[posInt.x, posInt.y]));
                     if (map.tilemap.HasTile(posInt) && Vector3.Distance(playerPos, pos) < 3.0f)
                     {
                         //  Debug.Log(string.Format("poz {0}", posInt.x ));
+                        block.Drop(posInt);
                         map.map[posInt.x, posInt.y] = 0;
                         map.tilemap.SetTile(posInt, null);
                         map.UpdateMap(map.map, map.tilemap, posInt.x, posInt.y);

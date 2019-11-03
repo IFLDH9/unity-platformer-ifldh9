@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cac9a6a46862180428fa07c38045e3fc, type: 3}
+  m_Name: Torch
+  m_EditorClassIdentifier: 
+  itemName: Torch
+  tile: {fileID: 11400000, guid: 0c0573e193937ef4a8b237351036bb20, type: 2}
+  icon: {fileID: 5478439331833116526, guid: 02b999918f901b3429f90d7b5ae7b97d, type: 3}
+  stack: 0
+  timer: 0
+  canBePutDown: 1

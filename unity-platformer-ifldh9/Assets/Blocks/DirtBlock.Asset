@@ -109,3 +109,5 @@ MonoBehaviour:
     m_RandomTransform: 0
   breakable: 1
   animation: {fileID: 0}
+  droppedItem: {fileID: 5507929504029239423, guid: e9bb35d30a1798f4aa9020fe307d97cd,
+    type: 3}
