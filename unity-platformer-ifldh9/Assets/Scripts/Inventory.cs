@@ -7,46 +7,50 @@ public class Inventory : MonoBehaviour
 
     public static Inventory instance;
     public Item[] items = new Item[40];
-    Item inHand = null;
+    public static Item inHand = null;
     public static int select = 0;
+    public InventoryUI[] inventoryUI;
 
     public Item Torch;
-
+    CraftingBook craftingBook;
     public void Awake()
     {
         instance = this;
         Debug.Log("inventory :)");
-        Torch.stack = 10;
         Debug.Log(select);
-        Add(Torch);
         Debug.Log("added torch :)");
-      //  Debug.Log(inHand.itemName);
+        //  Debug.Log(inHand.itemName);
         Debug.Log(select);
     }
 
     public delegate void OnItemChanged();
     public OnItemChanged onItemChangedCallback;
 
+    public void Start()
+    {
+        craftingBook = CraftingBook.instance;
+    }
 
     public bool Add(Item item)
     {
         Debug.Log(item.itemName + "has been added");
         Item listItem = GetItem(item);
-        if(listItem != null)
+        if (listItem != null)
         {
+            Debug.Log(listItem.name + " " + listItem.stack.ToString());
             listItem.stack += item.stack;
             return true;
         }
         else
         {
             int place = getNextFreeSpace();
-            if (place>-1)
+            if (place > -1)
             {
                 items[place] = item;
-
-                if(onItemChangedCallback  != null)
+                inHand = items[select];
+                if (onItemChangedCallback != null)
                 {
-                   onItemChangedCallback.Invoke();
+                    onItemChangedCallback.Invoke();
                 }
                 return true;
             }
@@ -58,7 +62,7 @@ public class Inventory : MonoBehaviour
     {
         foreach (Item listItem in items)
         {
-            if (listItem !=null && listItem.itemName.Equals(item.itemName))
+            if (listItem != null && listItem.itemName.Equals(item.itemName))
             {
                 return listItem;
             }
@@ -68,30 +72,28 @@ public class Inventory : MonoBehaviour
 
     public void useItem()
     {
-        if(inHand.canBePutDown==true)
+        inHand.stack--;
+        if (inHand.stack == 0)
         {
-            inHand.stack--;
-            if(inHand.stack == 0)
+            items[select] = null;
+            inHand = items[select];
+            if (onItemChangedCallback != null)
             {
-                items[select] = null;
-                if (onItemChangedCallback != null)
-                {
-                    onItemChangedCallback.Invoke();
-                }
+                onItemChangedCallback.Invoke();
             }
         }
     }
 
     public int getNextFreeSpace()
     {
-        for (int i = 0; i < items.Length; i++)
+        for (int i = 0; i < items.Length - 5; i++)
         {
             if (items[i] == null)
             {
                 return i;
             }
         }
-       return -1;
+        return -1;
     }
 
     public void Update()
@@ -109,8 +111,10 @@ public class Inventory : MonoBehaviour
 
 
             Debug.Log(inHand.itemName);
+            Debug.Log(inHand.stack);
             Debug.Log(select);
-        } else if (Input.GetAxis("Mouse ScrollWheel") < 0)
+        }
+        else if (Input.GetAxis("Mouse ScrollWheel") < 0)
         {
             if (select > 0)
             {
@@ -119,8 +123,36 @@ public class Inventory : MonoBehaviour
             }
 
             Debug.Log(inHand.itemName);
+            Debug.Log(inHand.stack);
             Debug.Log(select);
         }
     }
 
+    public void Craft()
+    {
+        craftingBook.checkForRecipe(items[40], items[41], items[42], items[43], items[44]);
+        inventoryUI[0].UpdateUI();
+        inventoryUI[1].UpdateUI();
+    }
+
+
+    public void Sort()
+    {
+        for(int i=0;i<items.Length-6;++i)
+        {
+            if (items[i] != null)
+            {
+                for (int j=i+1;j<items.Length-5;++j)
+                {
+                    if (items[j] != null && items[i].itemName.Equals(items[j].itemName))
+                    {
+                        items[i].stack += items[j].stack;
+                        items[j] = null;
+                    }
+                }
+            }
+
+        }
+
+    }
 }

@@ -6,9 +6,10 @@ using UnityEngine.Tilemaps;
 public class Map : MonoBehaviour
 {
 
-    public int columns ;
-    public int rows ;
+    public int columns;
+    public int rows;
     public DirtBlock dirtBlock;
+    public StoneBlock stoneBlock;
     private Transform mapHolder;
     public Tilemap tilemap;
     public int[,] map;
@@ -16,8 +17,8 @@ public class Map : MonoBehaviour
 
     void FixedUpdate()
     {
-       // UpdateMap(map, tilemap);
-       
+        // UpdateMap(map, tilemap);
+
     }
     public void RenderMap(int[,] map, Tilemap tilemap)
     {
@@ -32,7 +33,48 @@ public class Map : MonoBehaviour
                 // 1 = tile, 0 = no tile
                 if (map[x, y] == 1)
                 {
-                    tilemap.SetTile(new Vector3Int(x, y, 0), dirtBlock);
+                    if (y > map.GetUpperBound(1) / 2)
+                    {
+                        if (Random.Range(1, 101) > 90)
+                        {
+                            tilemap.SetTile(new Vector3Int(x, y, 0), stoneBlock);
+                        }
+                        else
+                        {
+                            tilemap.SetTile(new Vector3Int(x, y, 0), dirtBlock);
+                        }
+                    }
+                    else if (y > map.GetUpperBound(1) / 3)
+                    {
+                        if (Random.Range(1, 101) > 70)
+                        {
+                            tilemap.SetTile(new Vector3Int(x, y, 0), stoneBlock);
+                        }
+                        else
+                        {
+                            tilemap.SetTile(new Vector3Int(x, y, 0), dirtBlock);
+                        }
+
+
+                    }
+                    else if (y > map.GetUpperBound(1) / 5)
+                    {
+                        if (Random.Range(1, 101) > 50)
+                        {
+                            tilemap.SetTile(new Vector3Int(x, y, 0), stoneBlock);
+                        }
+                        else
+                        {
+                            tilemap.SetTile(new Vector3Int(x, y, 0), dirtBlock);
+                        }
+                    }
+                    else
+                    {
+
+                        tilemap.SetTile(new Vector3Int(x, y, 0), stoneBlock);
+
+
+                    }
                 }
             }
         }
@@ -40,7 +82,7 @@ public class Map : MonoBehaviour
 
     public void GenerateMap()
     {
-       // map = new int[columns, rows];
+        // map = new int[columns, rows];
         GenerateBasicStructure();
         RenderMap(map, tilemap);
     }
@@ -57,7 +99,7 @@ public class Map : MonoBehaviour
         if (random == 0)
         {
             int interval = Random.Range(0, 100);
-           // map = PerlinNoise(map,seed);
+            // map = PerlinNoise(map,seed);
             map = PerlinNoiseSmooth(map, seed, interval);
         }
         else if (random == 1)
@@ -72,15 +114,16 @@ public class Map : MonoBehaviour
 
         //Cave
 
-        float modifier = Random.Range(0.0f,0.3f);
-        //  map = PerlinNoiseCave(map, modifier, false);
-        //  map = RandomWalkCave(map, seed, 2);
-
+        float modifier = Random.Range(0.0f, 0.3f);
+         // map = PerlinNoiseCave(map, modifier, false);
+          map = RandomWalkCave(map, seed, 2);
+         seed = Random.Range(1.0f, 9000.0f);
+        map = RandomWalkCave(map, seed, 2);
         //map = DirectionalTunnel(map, 1, 5, 10, 4, 3);
         // map = DirectionalTunnel(map, 5, 10, 10, 10, 10);
 
-      //  map = GenerateCellularAutomata(columns, rows, seed, 50, false);
-      //  map = SmoothMooreCellularAutomata(map, false, 130);
+        //  map = GenerateCellularAutomata(columns, rows, seed, 50, false);
+        //  map = SmoothMooreCellularAutomata(map, false, 130);
     }
 
     public int[,] GenerateArray(int columns, int rows, bool empty)
@@ -89,15 +132,15 @@ public class Map : MonoBehaviour
 
         for (int x = 0; x < map.GetUpperBound(0); x++)
         {
-            for (int y = 0; y < map.GetUpperBound(1)/8*5; y++)
+            for (int y = 0; y < map.GetUpperBound(1) / 8 * 5; y++)
             {
-                    map[x, y] = 1;
+                map[x, y] = 1;
             }
         }
 
-        for (int x = map.GetUpperBound(0) ; x < map.GetUpperBound(0); x++)
+        for (int x = map.GetUpperBound(0); x < map.GetUpperBound(0); x++)
         {
-            for (int y = map.GetUpperBound(1) / 8 * 5; y < map.GetUpperBound(1)-5; y++)
+            for (int y = map.GetUpperBound(1) / 8 * 5; y < map.GetUpperBound(1) - 5; y++)
             {
                 if (empty)
                 {
@@ -196,10 +239,11 @@ public class Map : MonoBehaviour
     public void UpdateMap(int[,] map, Tilemap tilemap, int posX, int posY) //Takes in our map and tilemap, setting null tiles where needed
     {
 
-        if(posX == 0 || posX == 1)
+        if (posX == 0 || posX == 1)
         {
-            posX = 2; 
-        }else  if(posX > rows-3)
+            posX = 2;
+        }
+        else if (posX > rows - 3)
         {
             posX = rows - 3;
         }
@@ -207,8 +251,9 @@ public class Map : MonoBehaviour
         if (posY == 0 || posY == 1)
         {
             posY = 2;
-        }else 
-        if (posY <columns-3)
+        }
+        else
+        if (posY < columns - 3)
         {
             posY = columns - 3;
         }

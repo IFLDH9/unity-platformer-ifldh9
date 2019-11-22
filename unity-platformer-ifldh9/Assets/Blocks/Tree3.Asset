@@ -16,5 +16,7 @@ MonoBehaviour:
   m_DefaultGameObject: {fileID: 0}
   m_DefaultColliderType: 2
   m_TilingRules: []
-  breakable: 0
+  breakable: 1
   animation: {fileID: 0}
+  droppedItem:
+  - {fileID: 5507929504029239423, guid: 74f537c014bc3c44d8691ee29c7c34be, type: 3}

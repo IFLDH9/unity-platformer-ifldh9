@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     public EnviromentController enviromentMap;
     public Vector3Int focus;
     public LightController lightController;
-
+    Inventory inventory;
     public float timer = 0;
 
 
@@ -27,25 +27,28 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-       // DontDestroyOnLoad(gameObject);
+        // DontDestroyOnLoad(gameObject);
         // player = GetComponent<Transform>();
-        map =GetComponent<Map>();
+        map = GetComponent<Map>();
         enviromentMap = GetComponent<EnviromentController>();
         cam = Camera.main;
         lightController = GetComponent<LightController>();
-
-       InitGame();
-       RespawnPlayer();
-      //  player.GetComponent<Transform>().position = new Vector3Int(0, 198, 0);
+       
+        InitGame();
+        RespawnPlayer();
+        //  player.GetComponent<Transform>().position = new Vector3Int(0, 198, 0);
     }
-
+    public void Start()
+    {
+         inventory = Inventory.instance;
+    }
     void InitGame()
     {
         map.GenerateMap();
         enviromentMap.CreateEnviroment(map.map);
     }
 
-    
+
     void Update()
     {
         Transform playerTrans = player.GetComponent<Transform>();
@@ -56,15 +59,16 @@ public class GameManager : MonoBehaviour
             pos.z = 0;
             Vector3Int posInt = new Vector3Int((int)pos.x, (int)pos.y, (int)pos.z);
             Vector3 playerPos = new Vector3(playerTrans.position.x, playerTrans.position.y, 0);
-            
+
             Light2D torch = lightController.GetTorch(posInt);
             if (Vector3.Distance(playerPos, pos) < 3.0f && torch != null)
             {
                 lightController.RemoveTorch(torch);
                 enviromentMap.torchTileMap.SetTile(posInt, null);
+                enviromentMap.droppedTorch.Drop(posInt);
             }
 
-           if (focus == posInt)
+            if (focus == posInt)
             {
                 if (timer > 0.7f)
                 {
@@ -73,6 +77,8 @@ public class GameManager : MonoBehaviour
                     Debug.Log(string.Format("distance {0}", Vector3.Distance(playerPos, pos)));
                     TileBase tile = map.tilemap.GetTile(posInt);
                     Block block = (Block)tile;
+                    TileBase backgroundTile = enviromentMap.treeTileMap.GetTile(posInt);
+                    Block backgroundBlock = (Block)backgroundTile;
                     // Debug.Log(string.Format("tile {0}", tile.name));
                     Debug.Log(string.Format("tile {0}", map.map[posInt.x, posInt.y]));
                     if (map.tilemap.HasTile(posInt) && Vector3.Distance(playerPos, pos) < 3.0f)
@@ -83,11 +89,20 @@ public class GameManager : MonoBehaviour
                         map.tilemap.SetTile(posInt, null);
                         map.UpdateMap(map.map, map.tilemap, posInt.x, posInt.y);
                     }
+
+                    if (enviromentMap.treeTileMap.HasTile(posInt) && Vector3.Distance(playerPos, pos) < 3.0f)
+                    {
+                        //  Debug.Log(string.Format("poz {0}", posInt.x ));
+                        backgroundBlock.Drop(posInt);
+                        enviromentMap.treeTileMap.SetTile(posInt, null);
+                    }
+
                     //waitingButtonUp = true;
                     timer = 0;
                 }
 
-            } else
+            }
+            else
             {
                 focus.Set(posInt.x, posInt.y, posInt.z);
                 timer = 0;
@@ -96,44 +111,67 @@ public class GameManager : MonoBehaviour
         else
         {
             timer = 0;
-          //  waitingButtonUp = false;
+            //  waitingButtonUp = false;
         }
 
         if (Input.GetMouseButtonDown(1))
         {
-            
-            Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            pos.z = 0;
-            Vector3Int posInt = new Vector3Int((int)pos.x, (int)pos.y, (int)pos.z);
-            Vector3 playerPos = new Vector3(playerTrans.position.x, playerTrans.position.y, 0);
-            Vector3Int playerPosInt = new Vector3Int((int)playerTrans.position.x,(int)playerTrans.position.y,0);
-            if (!map.tilemap.HasTile(posInt) && playerPosInt != posInt &&
-                posInt != new Vector3Int(playerPosInt.x,playerPosInt.y+1,0) && HasTileAround(posInt))
+            Item usedItem = Inventory.inHand;
+            if (usedItem != null)
             {
-                map.map[posInt.x, posInt.y] = 1;
-                map.tilemap.SetTile(posInt,map.dirtBlock);
-            }
-        }
+                Debug.Log(usedItem.itemName);
+                Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                pos.z = 0;
+                Vector3Int posInt = new Vector3Int((int)pos.x, (int)pos.y, (int)pos.z);
+                Vector3 playerPos = new Vector3(playerTrans.position.x, playerTrans.position.y, 0);
+                Vector3Int playerPosInt = new Vector3Int((int)playerTrans.position.x, (int)playerTrans.position.y, 0);
 
-        if(Input.GetMouseButtonDown(2))
-        {
-            Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            pos.z = 0;
-            Vector3Int posInt = new Vector3Int((int)pos.x, (int)pos.y, (int)pos.z);
-            Vector3 playerPos = new Vector3(playerTrans.position.x, playerTrans.position.y, 0);
-            if (lightController.GetTorch(posInt)== null && Vector3.Distance(playerPos, pos) < 3.0f 
-                && map.tilemap.HasTile(posInt) && !enviromentMap.torchTileMap.HasTile(posInt))
-            {
-                lightController.PutDownTorch(posInt);
-                enviromentMap.torchTileMap.SetTile(posInt,enviromentMap.normalTorch);
+                switch (usedItem.blocktype)
+                {
+                    case Item.BlockType.FOREGROUND:
+                        if (!map.tilemap.HasTile(posInt) && playerPosInt != posInt &&
+                   posInt != new Vector3Int(playerPosInt.x, playerPosInt.y + 1, 0) && HasTileAround(posInt))
+                        {
+                            if (usedItem.canBePutDown == true)
+                            {
+                                map.map[posInt.x, posInt.y] = 1;
+                                map.tilemap.SetTile(posInt, usedItem.tile);
+                                inventory.useItem();
+                                inventory.inventoryUI[0].UpdateUI();
+                                inventory.inventoryUI[1].UpdateUI();
+                            }
+                        }
+                        break;
+                    case Item.BlockType.TORCH:
+                        if (lightController.GetTorch(posInt) == null && Vector3.Distance(playerPos, pos) < 3.0f
+                && !map.tilemap.HasTile(posInt) && enviromentMap.treeTileMap.HasTile(posInt) && !enviromentMap.torchTileMap.HasTile(posInt))
+                        {
+                            lightController.PutDownTorch(posInt);
+                            enviromentMap.torchTileMap.SetTile(posInt, enviromentMap.normalTorch);
+                            inventory.useItem();
+                            inventory.inventoryUI[0].UpdateUI();
+                            inventory.inventoryUI[1].UpdateUI();
+                        }
+                        break;
+                    case Item.BlockType.BACKGROUND:
+                        if (!enviromentMap.treeTileMap.HasTile(posInt) && Vector3.Distance(playerPos, pos) < 3.0f)
+                        {
+                            enviromentMap.treeTileMap.SetTile(posInt, usedItem.tile);
+                            inventory.useItem();
+                            inventory.inventoryUI[0].UpdateUI();
+                            inventory.inventoryUI[1].UpdateUI();
+                        }
+
+                        break;
+                }
             }
         }
     }
 
     public bool HasTileAround(Vector3Int posInt)
     {
-        if(map.tilemap.HasTile(new Vector3Int(posInt.x+1,posInt.y,posInt.z)) || map.tilemap.HasTile(new Vector3Int(posInt.x-1, posInt.y, posInt.z)) ||
-            map.tilemap.HasTile(new Vector3Int(posInt.x, posInt.y+1, posInt.z)) || map.tilemap.HasTile(new Vector3Int(posInt.x, posInt.y-1, posInt.z)))
+        if (map.tilemap.HasTile(new Vector3Int(posInt.x + 1, posInt.y, posInt.z)) || map.tilemap.HasTile(new Vector3Int(posInt.x - 1, posInt.y, posInt.z)) ||
+            map.tilemap.HasTile(new Vector3Int(posInt.x, posInt.y + 1, posInt.z)) || map.tilemap.HasTile(new Vector3Int(posInt.x, posInt.y - 1, posInt.z)))
         {
             return true;
         }
@@ -147,24 +185,24 @@ public class GameManager : MonoBehaviour
         int randomY = 0;
         bool foundASpot = false;
 
-        for(int i = 0; !foundASpot;++i)
+        for (int i = 0; !foundASpot; ++i)
         {
             randomX = Random.Range(0, 200);
             randomY = Random.Range(0, map.map.GetUpperBound(1) - 1);
-            for (int y = randomY; y < map.map.GetUpperBound(1)-4; y++)
+            for (int y = randomY; y < map.map.GetUpperBound(1) - 4; y++)
             {
-                if(map.tilemap.HasTile(new Vector3Int(randomX,y,0)) && !map.tilemap.HasTile(new Vector3Int(randomX, y+1, 0))
+                if (map.tilemap.HasTile(new Vector3Int(randomX, y, 0)) && !map.tilemap.HasTile(new Vector3Int(randomX, y + 1, 0))
                     )
-            {
-                    player.GetComponent<Transform>().position=new Vector3Int(randomX, y+1,0);
+                {
+                    player.GetComponent<Transform>().position = new Vector3Int(randomX, y + 1, 0);
                     Debug.Log(string.Format("Co-ords [X: {0} Y: {0}]", randomX, y));
                     foundASpot = true;
                     break;
-            }
+                }
             }
 
-        } 
-      }
+        }
     }
+}
 
 

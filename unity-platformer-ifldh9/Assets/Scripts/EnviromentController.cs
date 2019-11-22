@@ -11,12 +11,12 @@ public class EnviromentController : MonoBehaviour
     public AnimatedTile torchOnWall;
     public Tilemap treeTileMap;
     public Tilemap torchTileMap;
+    public Block droppedTorch;
 
     void Start()
     {
     }
 
-   
     void Update()
     {
         
@@ -34,7 +34,7 @@ public class EnviromentController : MonoBehaviour
                 {
                     if(map[x,y+1] == 0 && map[x , y+2] == 0 && map[x , y+3] == 0 && map[x, y+4] == 0)
                     {
-                        treeTileMap.SetTile(new Vector3Int(x,y,0),trees[Random.Range(0, trees.Count)]);
+                        treeTileMap.SetTile(new Vector3Int(x,y+1,0),trees[Random.Range(0, trees.Count)]);
                         x++;
                     }
                 }

@@ -9,14 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c70e821fd0e56bf419d8770757578015, type: 3}
-  m_Name: Tree2
+  m_Script: {fileID: 11500000, guid: 9acb00361ee2f2542b64f2472d32582f, type: 3}
+  m_Name: Wood
   m_EditorClassIdentifier: 
-  m_DefaultSprite: {fileID: 21300000, guid: 23575d0053fe0e9428bef80f26336686, type: 3}
+  m_DefaultSprite: {fileID: 9101273194074754107, guid: dbe433d073977b94a9ef514eaac6f73e,
+    type: 3}
   m_DefaultGameObject: {fileID: 0}
   m_DefaultColliderType: 2
   m_TilingRules: []
   breakable: 1
   animation: {fileID: 0}
-  droppedItem:
-  - {fileID: 5507929504029239423, guid: 74f537c014bc3c44d8691ee29c7c34be, type: 3}
+  droppedItem: {fileID: 5507929504029239423, guid: 74f537c014bc3c44d8691ee29c7c34be,
+    type: 3}

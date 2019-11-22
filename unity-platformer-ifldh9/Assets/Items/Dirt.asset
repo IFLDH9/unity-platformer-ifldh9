@@ -15,6 +15,7 @@ MonoBehaviour:
   itemName: Dirt
   tile: {fileID: 11400000, guid: 7fdc19a1c3f23474dae35573915d4afd, type: 2}
   icon: {fileID: -5612575723359724868, guid: 9c058df4662f8a9408a6f5f8e74b9022, type: 3}
-  stack: 0
+  stack: 1
   timer: 0
   canBePutDown: 1
+  blocktype: 2

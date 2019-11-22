@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cac9a6a46862180428fa07c38045e3fc, type: 3}
-  m_Name: Torch
+  m_Name: Wood
   m_EditorClassIdentifier: 
-  itemName: Torch
-  tile: {fileID: 11400000, guid: 0c0573e193937ef4a8b237351036bb20, type: 2}
-  icon: {fileID: 5478439331833116526, guid: 02b999918f901b3429f90d7b5ae7b97d, type: 3}
-  stack: 34
+  itemName: Wood
+  tile: {fileID: 11400000, guid: fc76eaeddcd78764696453592123b1a6, type: 2}
+  icon: {fileID: 9101273194074754107, guid: dbe433d073977b94a9ef514eaac6f73e, type: 3}
+  stack: 2
   timer: 0
   canBePutDown: 1
-  blocktype: 0
+  blocktype: 2

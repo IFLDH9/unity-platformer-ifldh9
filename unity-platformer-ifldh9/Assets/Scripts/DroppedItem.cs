@@ -11,10 +11,11 @@ public class DroppedItem : MonoBehaviour
 
     void Start()
     {
+        Item newItem =Instantiate(item);
+        item = newItem;
         player = GameObject.FindGameObjectWithTag("Player");
         inventory = player.GetComponent<Inventory>();
         Invoke("Despawn", 120);
-        item.stack = 1;
     }
 
     void Update()
@@ -25,6 +26,8 @@ public class DroppedItem : MonoBehaviour
         {
            if(inventory.Add(item))
             {
+                inventory.inventoryUI[0].UpdateUI();
+                inventory.inventoryUI[1].UpdateUI();
                 Destroy(gameObject);
             }
         }
