@@ -9808,12 +9808,6 @@ PrefabInstance:
       propertyPath: inventoryUI.Array.data[1]
       value: 
       objectReference: {fileID: 1419855122}
-    - target: {fileID: 6594490632493853054, guid: 30d9e3a45ffbb4c4abbc8aeca4c020ff,
-        type: 3}
-      propertyPath: craftingRecipes.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 4eabe85fc135c1a45802af6a70d84a81,
-        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30d9e3a45ffbb4c4abbc8aeca4c020ff, type: 3}
 --- !u!1001 &1744646968651645689

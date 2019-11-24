@@ -33,19 +33,19 @@ public class GameManager : MonoBehaviour
         enviromentMap = GetComponent<EnviromentController>();
         cam = Camera.main;
         lightController = GetComponent<LightController>();
-       
+
         InitGame();
         RespawnPlayer();
         //  player.GetComponent<Transform>().position = new Vector3Int(0, 198, 0);
     }
     public void Start()
     {
-         inventory = Inventory.instance;
+        inventory = Inventory.instance;
     }
     void InitGame()
     {
         map.GenerateMap();
-        enviromentMap.CreateEnviroment(map.map);
+        enviromentMap.CreateEnviroment(map.map,map.tilemap);
     }
 
 
@@ -180,29 +180,30 @@ public class GameManager : MonoBehaviour
 
     public void RespawnPlayer()
     {
-
         int randomX = 0;
-        int randomY = 0;
         bool foundASpot = false;
 
         for (int i = 0; !foundASpot; ++i)
         {
             randomX = Random.Range(0, 200);
-            randomY = Random.Range(0, map.map.GetUpperBound(1) - 1);
-            for (int y = randomY; y < map.map.GetUpperBound(1) - 4; y++)
+            for (int y = (map.map.GetUpperBound(1)-1); y > 0; y--)
             {
-                if (map.tilemap.HasTile(new Vector3Int(randomX, y, 0)) && !map.tilemap.HasTile(new Vector3Int(randomX, y + 1, 0))
-                    )
+               
+                if (map.tilemap.HasTile(new Vector3Int(randomX, y, 0)))
                 {
                     player.GetComponent<Transform>().position = new Vector3Int(randomX, y + 1, 0);
-                    Debug.Log(string.Format("Co-ords [X: {0} Y: {0}]", randomX, y));
+                    Debug.Log(randomX + "  " + y);
                     foundASpot = true;
                     break;
                 }
             }
-
         }
     }
 }
+
+
+
+
+
 
 

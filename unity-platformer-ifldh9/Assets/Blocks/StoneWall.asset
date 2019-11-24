@@ -9,15 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: babca31ec0ea2cb49bcc7a0b2f86ef1c, type: 3}
-  m_Name: StoneBlock
+  m_Script: {fileID: 11500000, guid: fc8628bd42004ab4687b3e0830e94471, type: 3}
+  m_Name: StoneWall
   m_EditorClassIdentifier: 
-  m_DefaultSprite: {fileID: -8540854674809487797, guid: 02de0af458f8e9f4cad170473b742502,
+  m_DefaultSprite: {fileID: 8227005713950910432, guid: cc707f98fca3b9f448f685f38214cf87,
     type: 3}
   m_DefaultGameObject: {fileID: 0}
   m_DefaultColliderType: 2
   m_TilingRules: []
   breakable: 1
   animation: {fileID: 0}
-  droppedItem: {fileID: 5507929504029239423, guid: 6a6ba0079a43b5f4186e5eb9350884f0,
-    type: 3}
+  droppedItem: {fileID: 0}

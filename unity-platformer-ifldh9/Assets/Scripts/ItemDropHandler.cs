@@ -39,6 +39,7 @@ public class ItemDropHandler : MonoBehaviour, IDropHandler
             swapItems(slot1, slot2);
             inventory.Sort();
             inventoryUI.UpdateUI();
+            inventory.UpdateItemInHand();
         }
     }
 

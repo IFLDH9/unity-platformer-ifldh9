@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5507929504029239417}
   - component: {fileID: 5507929504029239422}
   m_Layer: 10
-  m_Name: WoodWall
+  m_Name: Stone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -72,7 +72,7 @@ SpriteRenderer:
   m_SortingLayerID: 1908836475
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 4401721259341450612, guid: 51f869ee692f39847b026bafade4fc5f,
+  m_Sprite: {fileID: 1111231892956182058, guid: 02de0af458f8e9f4cad170473b742502,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -96,7 +96,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cf85a685cda1f5459d2613d8a5977d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: 19d3487169f593145b5d24301199e3f2, type: 2}
+  item: {fileID: 11400000, guid: 9bd04132396251246b161d7889e6aa5f, type: 2}
   radius: 3
 --- !u!50 &5507929504029239417
 Rigidbody2D:

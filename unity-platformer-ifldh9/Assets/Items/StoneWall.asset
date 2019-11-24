@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cac9a6a46862180428fa07c38045e3fc, type: 3}
+  m_Name: StoneWall
+  m_EditorClassIdentifier: 
+  itemName: StoneWall
+  tile: {fileID: 11400000, guid: 986f95995d2920647a1e1252e098a528, type: 2}
+  icon: {fileID: 8227005713950910432, guid: cc707f98fca3b9f448f685f38214cf87, type: 3}
+  stack: 1
+  timer: 0
+  canBePutDown: 1
+  blocktype: 1

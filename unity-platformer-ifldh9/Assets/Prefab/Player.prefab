@@ -269,7 +269,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   craftingRecipes:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 4eabe85fc135c1a45802af6a70d84a81, type: 2}
+  - {fileID: 11400000, guid: 52baf9ea12d55fc419125ea238abe5bb, type: 2}
 --- !u!1 &1373963227713864110
 GameObject:
   m_ObjectHideFlags: 0
