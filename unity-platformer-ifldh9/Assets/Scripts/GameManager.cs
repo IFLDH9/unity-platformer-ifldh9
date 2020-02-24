@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
+        Application.runInBackground = true;
         if (instance == null)
         {
             instance = this;

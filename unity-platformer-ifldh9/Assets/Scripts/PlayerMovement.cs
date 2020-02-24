@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : NetworkBehaviour
 {
 
     public CharacterController2D controller;
@@ -12,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     bool jump = false;
     void Update()
     {
+        if(this.isLocalPlayer)
       horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
 
         animator.SetFloat("speed", Mathf.Abs(horizontalMove));
