@@ -13,15 +13,17 @@ public class PlayerMovement : NetworkBehaviour
     bool jump = false;
     void Update()
     {
-        if(this.isLocalPlayer)
-      horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
-
-        animator.SetFloat("speed", Mathf.Abs(horizontalMove));
-
-        if(Input.GetButtonDown("Jump"))
+        //if (isLocalPlayer)
         {
-            jump = true;
-            animator.SetBool("isJumping", true);
+            horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
+
+            animator.SetFloat("speed", Mathf.Abs(horizontalMove));
+
+            if (Input.GetButtonDown("Jump"))
+            {
+                jump = true;
+                animator.SetBool("isJumping", true);
+            }
         }
     }
 

@@ -8099,7 +8099,7 @@ MonoBehaviour:
   m_LogLevel: 2
   m_PlayerPrefab: {fileID: 1373963227014522228, guid: 30d9e3a45ffbb4c4abbc8aeca4c020ff,
     type: 3}
-  m_AutoCreatePlayer: 1
+  m_AutoCreatePlayer: 0
   m_PlayerSpawnMethod: 1
   m_OfflineScene: 
   m_OnlineScene: 
@@ -8894,6 +8894,45 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 261439090}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2010741107 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 864429916483308776, guid: 3563b8921d8da71459897705c82f2ed2,
+    type: 3}
+  m_PrefabInstance: {fileID: 1811325214}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2010741113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2010741107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8258ea15b8f74c4889ce485d21cbbb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 53
+    i1: 99
+    i2: 184
+    i3: 146
+    i4: 29
+    i5: 141
+    i6: 167
+    i7: 20
+    i8: 89
+    i9: 137
+    i10: 119
+    i11: 5
+    i12: 200
+    i13: 47
+    i14: 46
+    i15: 210
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!1001 &2015990711
 PrefabInstance:
   m_ObjectHideFlags: 0

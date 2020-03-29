@@ -1,8 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.Experimental.Rendering.LWRP;
+using UnityEngine.Networking;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
-public class GameManager : MonoBehaviour
+[System.Obsolete]
+public class GameManager : NetworkBehaviour
 {
     public GameObject player;
     public Map map = null;
@@ -14,6 +18,48 @@ public class GameManager : MonoBehaviour
     Inventory inventory;
     public float timer = 0;
 
+
+    private BinaryFormatter bf = new BinaryFormatter();
+
+
+    public override void OnStartClient()
+    { 
+            Debug.Log("csatlakozott");
+            if (isClient)
+            {
+            Debug.Log("csatlakozott2");
+            CmdUpdateMap();
+            }
+    }
+
+    [ClientRpc]
+    public void RpcUpdateMap(byte[] map)
+    {
+        MemoryStream stream = new MemoryStream(map);
+        object[] args = bf.Deserialize(stream) as object[]; ;
+        Debug.Log("Broadcasting event: ");
+        foreach (var o in args)
+        {
+            Debug.Log("arg-class: " + o.GetType() + ": " + o);
+        }
+    }
+
+   [Command]
+   public void CmdUpdateMap()
+    {
+
+ if (isServer)
+        {
+
+            MemoryStream stream = new MemoryStream();
+            bf.Serialize(stream, map);
+            stream.ToArray();
+
+            RpcUpdateMap(stream.ToArray());
+        }
+
+
+    }
 
     void Awake()
     {
@@ -48,7 +94,6 @@ public class GameManager : MonoBehaviour
         map.GenerateMap();
         enviromentMap.CreateEnviroment(map.map,map.tilemap);
     }
-
 
     void Update()
     {
