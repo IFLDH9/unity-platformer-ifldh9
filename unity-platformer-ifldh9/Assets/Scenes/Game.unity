@@ -8085,7 +8085,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1786777656}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10c2fd873b12541b392f10ecc4846574, type: 3}
+  m_Script: {fileID: 11500000, guid: ee9b0b7e7864a4199833debaf7bfcec8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_NetworkPort: 7777
@@ -8099,11 +8099,14 @@ MonoBehaviour:
   m_LogLevel: 2
   m_PlayerPrefab: {fileID: 1373963227014522228, guid: 30d9e3a45ffbb4c4abbc8aeca4c020ff,
     type: 3}
-  m_AutoCreatePlayer: 0
+  m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 1
   m_OfflineScene: 
   m_OnlineScene: 
-  m_SpawnPrefabs: []
+  m_SpawnPrefabs:
+  - {fileID: 864429916483308776, guid: 3563b8921d8da71459897705c82f2ed2, type: 3}
+  - {fileID: 1373963227014522228, guid: 30d9e3a45ffbb4c4abbc8aeca4c020ff, type: 3}
+  - {fileID: 8876683636823966805, guid: 0c8de92c65f2d894bb648a206ed12e21, type: 3}
   m_CustomConfig: 1
   m_MaxConnections: 4
   m_ConnectionConfig:
@@ -8159,6 +8162,8 @@ MonoBehaviour:
   matchSize: 4
   isNetworkActive: 0
   matchMaker: {fileID: 0}
+  clientManager: {fileID: 8876683636823966805, guid: 0c8de92c65f2d894bb648a206ed12e21,
+    type: 3}
 --- !u!4 &1786777659
 Transform:
   m_ObjectHideFlags: 0
@@ -8257,6 +8262,74 @@ PrefabInstance:
       propertyPath: torchTileMap
       value: 
       objectReference: {fileID: 1570726611}
+    - target: {fileID: 2010741113, guid: 3563b8921d8da71459897705c82f2ed2, type: 3}
+      propertyPath: m_AssetId.i0
+      value: 53
+      objectReference: {fileID: 0}
+    - target: {fileID: 2010741113, guid: 3563b8921d8da71459897705c82f2ed2, type: 3}
+      propertyPath: m_AssetId.i1
+      value: 99
+      objectReference: {fileID: 0}
+    - target: {fileID: 2010741113, guid: 3563b8921d8da71459897705c82f2ed2, type: 3}
+      propertyPath: m_AssetId.i2
+      value: 184
+      objectReference: {fileID: 0}
+    - target: {fileID: 2010741113, guid: 3563b8921d8da71459897705c82f2ed2, type: 3}
+      propertyPath: m_AssetId.i3
+      value: 146
+      objectReference: {fileID: 0}
+    - target: {fileID: 2010741113, guid: 3563b8921d8da71459897705c82f2ed2, type: 3}
+      propertyPath: m_AssetId.i4
+      value: 29
+      objectReference: {fileID: 0}
+    - target: {fileID: 2010741113, guid: 3563b8921d8da71459897705c82f2ed2, type: 3}
+      propertyPath: m_AssetId.i5
+      value: 141
+      objectReference: {fileID: 0}
+    - target: {fileID: 2010741113, guid: 3563b8921d8da71459897705c82f2ed2, type: 3}
+      propertyPath: m_AssetId.i6
+      value: 167
+      objectReference: {fileID: 0}
+    - target: {fileID: 2010741113, guid: 3563b8921d8da71459897705c82f2ed2, type: 3}
+      propertyPath: m_AssetId.i7
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2010741113, guid: 3563b8921d8da71459897705c82f2ed2, type: 3}
+      propertyPath: m_AssetId.i8
+      value: 89
+      objectReference: {fileID: 0}
+    - target: {fileID: 2010741113, guid: 3563b8921d8da71459897705c82f2ed2, type: 3}
+      propertyPath: m_AssetId.i9
+      value: 137
+      objectReference: {fileID: 0}
+    - target: {fileID: 2010741113, guid: 3563b8921d8da71459897705c82f2ed2, type: 3}
+      propertyPath: m_AssetId.i10
+      value: 119
+      objectReference: {fileID: 0}
+    - target: {fileID: 2010741113, guid: 3563b8921d8da71459897705c82f2ed2, type: 3}
+      propertyPath: m_AssetId.i11
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2010741113, guid: 3563b8921d8da71459897705c82f2ed2, type: 3}
+      propertyPath: m_AssetId.i12
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 2010741113, guid: 3563b8921d8da71459897705c82f2ed2, type: 3}
+      propertyPath: m_AssetId.i13
+      value: 47
+      objectReference: {fileID: 0}
+    - target: {fileID: 2010741113, guid: 3563b8921d8da71459897705c82f2ed2, type: 3}
+      propertyPath: m_AssetId.i14
+      value: 46
+      objectReference: {fileID: 0}
+    - target: {fileID: 2010741113, guid: 3563b8921d8da71459897705c82f2ed2, type: 3}
+      propertyPath: m_AssetId.i15
+      value: 210
+      objectReference: {fileID: 0}
+    - target: {fileID: 2010741113, guid: 3563b8921d8da71459897705c82f2ed2, type: 3}
+      propertyPath: m_ServerOnly
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3563b8921d8da71459897705c82f2ed2, type: 3}
 --- !u!1001 &1820873185
@@ -8894,45 +8967,6 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 261439090}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &2010741107 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 864429916483308776, guid: 3563b8921d8da71459897705c82f2ed2,
-    type: 3}
-  m_PrefabInstance: {fileID: 1811325214}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2010741113
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2010741107}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8258ea15b8f74c4889ce485d21cbbb1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 53
-    i1: 99
-    i2: 184
-    i3: 146
-    i4: 29
-    i5: 141
-    i6: 167
-    i7: 20
-    i8: 89
-    i9: 137
-    i10: 119
-    i11: 5
-    i12: 200
-    i13: 47
-    i14: 46
-    i15: 210
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
 --- !u!1001 &2015990711
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9914,6 +9948,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 1373963227014522228, guid: 30d9e3a45ffbb4c4abbc8aeca4c020ff,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1373963227014522225, guid: 30d9e3a45ffbb4c4abbc8aeca4c020ff,
         type: 3}

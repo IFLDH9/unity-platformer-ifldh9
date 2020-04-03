@@ -13,7 +13,7 @@ public class PlayerMovement : NetworkBehaviour
     bool jump = false;
     void Update()
     {
-        //if (isLocalPlayer)
+        if (isLocalPlayer)
         {
             horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
 

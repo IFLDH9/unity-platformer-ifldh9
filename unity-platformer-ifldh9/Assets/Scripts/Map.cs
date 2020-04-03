@@ -2,10 +2,10 @@
 using UnityEngine;
 using Random = UnityEngine.Random;
 using UnityEngine.Tilemaps;
+using UnityEngine.Networking;
 
-public class Map : MonoBehaviour
+public class Map : NetworkBehaviour
 {
-
     public int columns;
     public int rows;
     public DirtBlock dirtBlock;

@@ -4,8 +4,6 @@ using UnityEngine.Experimental.Rendering.LWRP;
 using UnityEngine.Networking;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
-
-[System.Obsolete]
 public class GameManager : NetworkBehaviour
 {
     public GameObject player;
@@ -23,47 +21,18 @@ public class GameManager : NetworkBehaviour
 
 
     public override void OnStartClient()
-    { 
-            Debug.Log("csatlakozott");
-            if (isClient)
-            {
-            Debug.Log("csatlakozott2");
-            CmdUpdateMap();
-            }
-    }
-
-    [ClientRpc]
-    public void RpcUpdateMap(byte[] map)
-    {
-        MemoryStream stream = new MemoryStream(map);
-        object[] args = bf.Deserialize(stream) as object[]; ;
-        Debug.Log("Broadcasting event: ");
-        foreach (var o in args)
-        {
-            Debug.Log("arg-class: " + o.GetType() + ": " + o);
-        }
-    }
-
-   [Command]
-   public void CmdUpdateMap()
     {
 
- if (isServer)
-        {
+        Debug.Log("csatlakozott");
 
-            MemoryStream stream = new MemoryStream();
-            bf.Serialize(stream, map);
-            stream.ToArray();
-
-            RpcUpdateMap(stream.ToArray());
-        }
-
-
+        Debug.Log("csatlakozott2");
     }
+
+
 
     void Awake()
     {
-        Application.runInBackground = true;
+        Screen.fullScreen = !Screen.fullScreen;
         if (instance == null)
         {
             instance = this;
@@ -81,22 +50,43 @@ public class GameManager : NetworkBehaviour
         cam = Camera.main;
         lightController = GetComponent<LightController>();
 
-        InitGame();
-        RespawnPlayer();
+
+
         //  player.GetComponent<Transform>().position = new Vector3Int(0, 198, 0);
     }
     public void Start()
     {
+        InitGame();
+       // RespawnPlayer();
         inventory = Inventory.instance;
     }
     void InitGame()
     {
-        map.GenerateMap();
-        enviromentMap.CreateEnviroment(map.map,map.tilemap);
+        if (isServer)
+        {
+            map.GenerateMap();
+            enviromentMap.CreateEnviroment(map.map, map.tilemap);
+        }
+
     }
+
+    [Command]
+    public void CmdLol(int random)
+    {
+        Debug.Log(random + "Ennti kaptamret ehzehelklo ");
+    }
+
 
     void Update()
     {
+       // if (isServer)
+        {
+        //    int random = Random.Range(20, 30);
+        //    Debug.Log(random);
+        //    CmdLol(random);
+        }
+
+
         Transform playerTrans = player.GetComponent<Transform>();
         if (Input.GetMouseButton(0))
         {
