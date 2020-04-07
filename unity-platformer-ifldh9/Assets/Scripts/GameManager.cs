@@ -49,7 +49,7 @@ public class GameManager : NetworkBehaviour
         enviromentMap = GetComponent<EnviromentController>();
         cam = Camera.main;
         lightController = GetComponent<LightController>();
-
+        
 
 
         //  player.GetComponent<Transform>().position = new Vector3Int(0, 198, 0);
@@ -60,6 +60,7 @@ public class GameManager : NetworkBehaviour
        // RespawnPlayer();
         inventory = Inventory.instance;
     }
+
     void InitGame()
     {
         if (isServer)

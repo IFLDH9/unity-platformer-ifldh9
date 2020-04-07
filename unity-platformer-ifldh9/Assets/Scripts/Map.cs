@@ -3,7 +3,10 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 using UnityEngine.Tilemaps;
 using UnityEngine.Networking;
+using System;
+using System.Text;
 
+[Serializable]
 public class Map : NetworkBehaviour
 {
     public int columns;
@@ -13,6 +16,8 @@ public class Map : NetworkBehaviour
     private Transform mapHolder;
     public Tilemap tilemap;
     public int[,] map;
+    public List<Byte> byteBuffer= new List<Byte>();
+
 
 
     void FixedUpdate()
@@ -20,7 +25,30 @@ public class Map : NetworkBehaviour
         // UpdateMap(map, tilemap);
 
     }
-    public void RenderMap(int[,] map, Tilemap tilemap)
+
+    public void RenderFromCompleteMap()
+    {
+        tilemap.ClearAllTiles();
+        //Loop through the width of the map
+        for (int x = 0; x < map.GetUpperBound(0); x++)
+        {
+            //Loop through the height of the map
+            for (int y = 0; y < map.GetUpperBound(1); y++)
+            {
+                if (map[x, y] == 2)
+                {
+                    tilemap.SetTile(new Vector3Int(x, y, 0), dirtBlock);
+                }
+                else if (map[x, y] == 3)
+                {
+                    tilemap.SetTile(new Vector3Int(x, y, 0), stoneBlock);
+                }
+            }
+        }
+    }
+
+
+    public void RenderNewMap(int[,] map, Tilemap tilemap)
     {
         //Clear the map (ensures we dont overlap)
         tilemap.ClearAllTiles();
@@ -38,10 +66,12 @@ public class Map : NetworkBehaviour
                         if (Random.Range(1, 101) > 90)
                         {
                             tilemap.SetTile(new Vector3Int(x, y, 0), stoneBlock);
+                            map[x, y] = 3;
                         }
                         else
                         {
                             tilemap.SetTile(new Vector3Int(x, y, 0), dirtBlock);
+                            map[x, y] = 2;
                         }
                     }
                     else if (y > map.GetUpperBound(1) / 3)
@@ -49,10 +79,12 @@ public class Map : NetworkBehaviour
                         if (Random.Range(1, 101) > 70)
                         {
                             tilemap.SetTile(new Vector3Int(x, y, 0), stoneBlock);
+                            map[x, y] = 3;
                         }
                         else
                         {
                             tilemap.SetTile(new Vector3Int(x, y, 0), dirtBlock);
+                            map[x, y] = 2;
                         }
 
 
@@ -62,16 +94,19 @@ public class Map : NetworkBehaviour
                         if (Random.Range(1, 101) > 50)
                         {
                             tilemap.SetTile(new Vector3Int(x, y, 0), stoneBlock);
+                            map[x, y] = 3;
                         }
                         else
                         {
                             tilemap.SetTile(new Vector3Int(x, y, 0), dirtBlock);
+                            map[x, y] = 2;
                         }
                     }
                     else
                     {
 
                         tilemap.SetTile(new Vector3Int(x, y, 0), stoneBlock);
+                        map[x, y] = 3;
 
 
                     }
@@ -84,7 +119,7 @@ public class Map : NetworkBehaviour
     {
         // map = new int[columns, rows];
         GenerateBasicStructure();
-        RenderMap(map, tilemap);
+        RenderNewMap(map, tilemap);
     }
 
 
@@ -115,9 +150,9 @@ public class Map : NetworkBehaviour
         //Cave
 
         float modifier = Random.Range(0.0f, 0.3f);
-         // map = PerlinNoiseCave(map, modifier, false);
-          map = RandomWalkCave(map, seed, 2);
-         seed = Random.Range(1.0f, 9000.0f);
+        // map = PerlinNoiseCave(map, modifier, false);
+        map = RandomWalkCave(map, seed, 2);
+        seed = Random.Range(1.0f, 9000.0f);
         map = RandomWalkCave(map, seed, 2);
         //map = DirectionalTunnel(map, 1, 5, 10, 4, 3);
         // map = DirectionalTunnel(map, 5, 10, 10, 10, 10);
@@ -626,4 +661,31 @@ public class Map : NetworkBehaviour
         return map;
     }
 
+    public List<Byte> MapToByteList()
+    {
+        List<Byte> mapBytes = new List<Byte>();
+
+        for (int x = 0; x < map.GetUpperBound(0); x++)
+        {
+            for (int y = 0; y < map.GetUpperBound(1); y++)
+            {
+                    mapBytes.Add((byte)map[x,y]);
+            }
+        }
+        return mapBytes;
+    }
+
+
+    public void BytesToMap(Byte[] mapBytes)
+    {
+        int counter = 0;
+        for (int x = 0; x < map.GetUpperBound(0); x++)
+        {
+            for (int y = 0; y < map.GetUpperBound(1); y++)
+            {
+                map[x, y] = mapBytes[counter];
+                counter++;
+            }
+        }
+    }
 }
