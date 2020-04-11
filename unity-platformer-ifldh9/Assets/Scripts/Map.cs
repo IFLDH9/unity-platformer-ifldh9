@@ -678,6 +678,14 @@ public class Map : NetworkBehaviour
 
     public void BytesToMap(Byte[] mapBytes)
     {
+        if(map == null)
+        {
+            Debug.Log("a map null");
+
+            GenerateArray(columns,rows,false);
+            map = new int[columns, rows];
+        }
+
         int counter = 0;
         for (int x = 0; x < map.GetUpperBound(0); x++)
         {

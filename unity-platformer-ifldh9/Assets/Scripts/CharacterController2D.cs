@@ -68,13 +68,13 @@ public class CharacterController2D : NetworkBehaviour
             if (move > 0 && !m_FacingRight)
             {
                 // ... flip the player.
-                Flip();
+                CmdFlip();
             }
             // Otherwise if the input is moving the player left and the player is facing right...
             else if (move < 0 && m_FacingRight)
             {
                 // ... flip the player.
-                Flip();
+                CmdFlip();
             }
         }
         // If the player should jump...
@@ -86,8 +86,8 @@ public class CharacterController2D : NetworkBehaviour
         }
     }
 
-
-    private void Flip()
+    [Command]
+    private void CmdFlip()
     {
         // Switch the way the player is labelled as facing.
         m_FacingRight = !m_FacingRight;
@@ -97,4 +97,5 @@ public class CharacterController2D : NetworkBehaviour
         theScale.x *= -1;
         transform.localScale = theScale;
     }
+    
 }

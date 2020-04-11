@@ -9,8 +9,15 @@ public class PlayerMovement : NetworkBehaviour
 
     public float runSpeed = 40f;
 
+    [SyncVar]
     float horizontalMove = 0f;
     bool jump = false;
+
+    void Start()
+    {
+
+    }
+
     void Update()
     {
         if (isLocalPlayer)
@@ -37,4 +44,5 @@ public class PlayerMovement : NetworkBehaviour
         controller.Move(horizontalMove * Time.fixedDeltaTime,false,jump);
         jump = false;
     }
+
 }

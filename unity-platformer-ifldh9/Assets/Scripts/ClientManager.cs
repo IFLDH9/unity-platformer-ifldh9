@@ -9,9 +9,12 @@ public class ClientManager : NetworkBehaviour
 {
     public GameManager gamemanager;
 
+
+
     public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();
+        Debug.Log("localplayer");
         CmdUpdateMap();
     }
 
@@ -105,6 +108,21 @@ public class ClientManager : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(hasAuthority)
+        {
+            Debug.Log("van auth");
+        }
+    }
 
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        Debug.Log("localplayer");
+        CmdUpdateMap();
+    }
+
+    public override void OnStartAuthority()
+    {
+        base.OnStartAuthority();
     }
 }

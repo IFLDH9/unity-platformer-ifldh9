@@ -19,6 +19,12 @@ public class GameManager : NetworkBehaviour
 
     private BinaryFormatter bf = new BinaryFormatter();
 
+    public override void OnStartServer()
+    {
+        base.OnStartServer();
+        InitGame();
+
+    }
 
     public override void OnStartClient()
     {
@@ -32,7 +38,6 @@ public class GameManager : NetworkBehaviour
 
     void Awake()
     {
-        Screen.fullScreen = !Screen.fullScreen;
         if (instance == null)
         {
             instance = this;
@@ -56,7 +61,7 @@ public class GameManager : NetworkBehaviour
     }
     public void Start()
     {
-        InitGame();
+       // InitGame();
        // RespawnPlayer();
         inventory = Inventory.instance;
     }
@@ -65,10 +70,12 @@ public class GameManager : NetworkBehaviour
     {
         if (isServer)
         {
+            Debug.Log("bentvagyokhelo");
             map.GenerateMap();
             enviromentMap.CreateEnviroment(map.map, map.tilemap);
         }
 
+       
     }
 
     [Command]
