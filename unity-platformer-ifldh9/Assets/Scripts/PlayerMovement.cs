@@ -7,10 +7,11 @@ public class PlayerMovement : NetworkBehaviour
     public CharacterController2D controller;
     public Animator animator;
 
+    [SyncVar]
     public float runSpeed = 40f;
-
     [SyncVar]
     float horizontalMove = 0f;
+    [SyncVar]
     bool jump = false;
 
     void Start()
@@ -31,6 +32,9 @@ public class PlayerMovement : NetworkBehaviour
                 jump = true;
                 animator.SetBool("isJumping", true);
             }
+
+
+
         }
     }
 
@@ -41,8 +45,11 @@ public class PlayerMovement : NetworkBehaviour
 
     void FixedUpdate()
     {
-        controller.Move(horizontalMove * Time.fixedDeltaTime,false,jump);
-        jump = false;
+        if (isLocalPlayer)
+        {
+            controller.CmdMove(horizontalMove * Time.fixedDeltaTime, false, jump);
+            jump = false;
+        }
     }
 
 }

@@ -8147,7 +8147,7 @@ MonoBehaviour:
     m_MaxTimerTimeout: 12000
     m_MinNetSimulatorTimeout: 1
     m_MaxNetSimulatorTimeout: 12000
-  m_Channels: 
+  m_Channels: 0500000000000000
   m_UseWebSockets: 0
   m_UseSimulator: 0
   m_SimulatedLatency: 1
@@ -8260,6 +8260,14 @@ PrefabInstance:
       propertyPath: torchTileMap
       value: 
       objectReference: {fileID: 1570726611}
+    - target: {fileID: 564684106, guid: 3563b8921d8da71459897705c82f2ed2, type: 3}
+      propertyPath: columns
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 564684106, guid: 3563b8921d8da71459897705c82f2ed2, type: 3}
+      propertyPath: rows
+      value: 200
+      objectReference: {fileID: 0}
     - target: {fileID: 2010741113, guid: 3563b8921d8da71459897705c82f2ed2, type: 3}
       propertyPath: m_AssetId.i0
       value: 53
@@ -10094,6 +10102,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId.i15
       value: 255
+      objectReference: {fileID: 0}
+    - target: {fileID: 1142857221844278471, guid: 30d9e3a45ffbb4c4abbc8aeca4c020ff,
+        type: 3}
+      propertyPath: m_RotationSyncCompression
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30d9e3a45ffbb4c4abbc8aeca4c020ff, type: 3}

@@ -94,70 +94,8 @@ public class GameManager : NetworkBehaviour
         //    CmdLol(random);
         }
 
-
         Transform playerTrans = player.GetComponent<Transform>();
-        if (Input.GetMouseButton(0))
-        {
-            timer += Time.deltaTime;
-            Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            pos.z = 0;
-            Vector3Int posInt = new Vector3Int((int)pos.x, (int)pos.y, (int)pos.z);
-            Vector3 playerPos = new Vector3(playerTrans.position.x, playerTrans.position.y, 0);
-
-            Light2D torch = lightController.GetTorch(posInt);
-            if (Vector3.Distance(playerPos, pos) < 3.0f && torch != null)
-            {
-                lightController.RemoveTorch(torch);
-                enviromentMap.torchTileMap.SetTile(posInt, null);
-                enviromentMap.droppedTorch.Drop(posInt);
-            }
-
-            if (focus == posInt)
-            {
-                if (timer > 0.7f)
-                {
-                    Debug.Log(string.Format("Co-ords of mouse is [X: {0} Y: {0}]", pos.x, pos.y));
-                    Debug.Log(string.Format("Co-ords of player is [X: {0} Y: {0}]", playerTrans.position.x, playerTrans.position.y));
-                    Debug.Log(string.Format("distance {0}", Vector3.Distance(playerPos, pos)));
-                    TileBase tile = map.tilemap.GetTile(posInt);
-                    Block block = (Block)tile;
-                    TileBase backgroundTile = enviromentMap.treeTileMap.GetTile(posInt);
-                    Block backgroundBlock = (Block)backgroundTile;
-                    // Debug.Log(string.Format("tile {0}", tile.name));
-                    Debug.Log(string.Format("tile {0}", map.map[posInt.x, posInt.y]));
-                    if (map.tilemap.HasTile(posInt) && Vector3.Distance(playerPos, pos) < 3.0f)
-                    {
-                        //  Debug.Log(string.Format("poz {0}", posInt.x ));
-                        block.Drop(posInt);
-                        map.map[posInt.x, posInt.y] = 0;
-                        map.tilemap.SetTile(posInt, null);
-                        map.UpdateMap(map.map, map.tilemap, posInt.x, posInt.y);
-                    }
-
-                    if (enviromentMap.treeTileMap.HasTile(posInt) && Vector3.Distance(playerPos, pos) < 3.0f)
-                    {
-                        //  Debug.Log(string.Format("poz {0}", posInt.x ));
-                        backgroundBlock.Drop(posInt);
-                        enviromentMap.treeTileMap.SetTile(posInt, null);
-                    }
-
-                    //waitingButtonUp = true;
-                    timer = 0;
-                }
-
-            }
-            else
-            {
-                focus.Set(posInt.x, posInt.y, posInt.z);
-                timer = 0;
-            }
-        }
-        else
-        {
-            timer = 0;
-            //  waitingButtonUp = false;
-        }
-
+       
         if (Input.GetMouseButtonDown(1))
         {
             Item usedItem = Inventory.inHand;
