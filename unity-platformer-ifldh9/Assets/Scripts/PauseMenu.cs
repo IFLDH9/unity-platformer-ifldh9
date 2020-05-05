@@ -36,9 +36,13 @@ public class PauseMenu : MonoBehaviour
         GameIsPaused = true;
     }
 
-    public void QuitAndSave()
+    public void Quit()
     {
-        SceneManager.LoadScene("MainMenu");
+        CustomNetworkManager manager = FindObjectOfType<CustomNetworkManager>();
+        manager.StopServer();
+        manager.StopClient();
+        manager.StopHost();
+        Application.LoadLevel("Game");
     }
  
 }

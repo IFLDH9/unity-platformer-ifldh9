@@ -14,13 +14,18 @@ public class EnviromentController : MonoBehaviour
     public Tilemap torchTileMap;
     public Block droppedTorch;
     public int[,] treeMap;
+    public int[,] torchMap;
     public List<Byte> byteBuffer = new List<Byte>();
+    public Block woodWall;
+    public Block stoneWall;
+    public LightController lightController;
 
     public int columns;
     public int rows;
 
     void Start()
     {
+        lightController = GetComponent<LightController>();
     }
 
     void Update()
@@ -31,11 +36,13 @@ public class EnviromentController : MonoBehaviour
     public void GenerateArray(int columns, int rows)
     {
         treeMap = new int[columns, rows];
+        torchMap = new int[columns, rows];
         for (int x = 0; x < treeMap.GetUpperBound(0); x++)
         {
             for (int y = 0; y < treeMap.GetUpperBound(1); y++)
             {
                 treeMap[x, y] = 0;
+                torchMap[x, y] = 0;
             }
         }
     }
@@ -53,7 +60,7 @@ public class EnviromentController : MonoBehaviour
                     Block block =(Block)tilemap.GetTile(new Vector3Int(x,y,0));
                     if(block is DirtBlock && map[x,y+1] == 0 && map[x , y+2] == 0 && map[x , y+3] == 0 && map[x, y+4] == 0)
                     {
-                        int random = UnityEngine.Random.Range(1, 3);
+                        int random = UnityEngine.Random.Range(1, 4);
                         switch(random)
                         {
                             case 1:
@@ -102,6 +109,40 @@ public class EnviromentController : MonoBehaviour
                     case 3:
                         treeTileMap.SetTile(new Vector3Int(x, y + 1, 0), trees[2]);
                         break;
+                    case 4:
+                        treeTileMap.SetTile(new Vector3Int(x, y + 1, 0), woodWall);
+                        break;
+                    case 5:
+                        treeTileMap.SetTile(new Vector3Int(x, y + 1, 0), stoneWall);
+                        break;
+                }
+            }
+        }
+        byteBuffer.Clear();
+    }
+
+
+    public void RenderTorchTileMapFromCompleteTorchMap()
+    {
+        torchTileMap.ClearAllTiles();
+        //Loop through the width of the map
+        for (int x = 0; x < torchMap.GetUpperBound(0); x++)
+        {
+            //Loop through the height of the map
+            for (int y = 0; y < torchMap.GetUpperBound(1); y++)
+            {
+                switch (torchMap[x, y])
+                {
+                    case 0:
+                        torchTileMap.SetTile(new Vector3Int(x, y , 0), null);
+                        break;
+                    case 1:
+                        torchTileMap.SetTile(new Vector3Int(x, y, 0), normalTorch);
+                        lightController.PutDownTorch(new Vector3Int(x, y, 0));
+                        break;
+                    case 2:
+                        torchTileMap.SetTile(new Vector3Int(x, y , 0), torchOnWall);
+                        break;
                 }
             }
         }
@@ -120,7 +161,6 @@ public class EnviromentController : MonoBehaviour
         }
         return mapBytes;
     }
-
 
     public void BytesToMap(Byte[] mapBytes)
     {
@@ -143,4 +183,41 @@ public class EnviromentController : MonoBehaviour
         }
     }
 
+
+
+    public List<Byte> TorchMapToByteList()
+    {
+        List<Byte> mapBytes = new List<Byte>();
+
+        for (int x = 0; x < torchMap.GetUpperBound(0); x++)
+        {
+            for (int y = 0; y < torchMap.GetUpperBound(1); y++)
+            {
+                mapBytes.Add((byte)torchMap[x, y]);
+            }
+        }
+        return mapBytes;
+    }
+
+
+    public void BytesToTorchMap(Byte[] mapBytes)
+    {
+        if (torchMap == null)
+        {
+            Debug.Log("a map null");
+
+            GenerateArray(columns, rows);
+            torchMap = new int[columns, rows];
+        }
+
+        int counter = 0;
+        for (int x = 0; x < torchMap.GetUpperBound(0); x++)
+        {
+            for (int y = 0; y < torchMap.GetUpperBound(1); y++)
+            {
+                torchMap[x, y] = mapBytes[counter];
+                counter++;
+            }
+        }
+    }
 }

@@ -3,10 +3,9 @@ using UnityEngine.Events;
 using UnityEngine.Networking;
 
 
-[NetworkSettings(sendInterval = 0.05f)]
 public class CharacterController2D : NetworkBehaviour
 {
-    [SerializeField] private float m_JumpForce = 400f;                          // Amount of force added when the player jumps.
+    [SerializeField] private float m_JumpForce = 4f;                          // Amount of force added when the player jumps.
     [Range(0, .3f)] [SerializeField] private float m_MovementSmoothing = .05f;  // How much to smooth out the movement
     [SerializeField] private bool m_AirControl = false;                         // Whether or not a player can steer while jumping;
     [SerializeField] private LayerMask m_WhatIsGround;                          // A mask determining what is ground to the character
@@ -28,16 +27,20 @@ public class CharacterController2D : NetworkBehaviour
     [SyncVar]
     private Vector3 m_Velocity = Vector3.zero;
     
+    Player player;
     [Header("Events")]
     [Space]
 
     public UnityEvent OnLandEvent;
+
+   
 
     [System.Serializable]
     public class BoolEvent : UnityEvent<bool> { }
 
     private void Awake()
     {
+        player = GetComponent<Player>();
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
         playerTransformLocalScale = transform.localScale;
 
@@ -45,12 +48,12 @@ public class CharacterController2D : NetworkBehaviour
 
         if (OnLandEvent == null)
             OnLandEvent = new UnityEvent();
-        
     }
 
     private void FixedUpdate()
     {
         transform.localScale = playerTransformLocalScale;
+        player.nameText.transform.localScale = playerTransformLocalScale;
         bool wasGrounded = m_Grounded;
         m_Grounded = false;
         // The player is grounded if a circlecast to the groundcheck position hits anything designated as ground
@@ -71,15 +74,14 @@ public class CharacterController2D : NetworkBehaviour
     public void TargetAddVelocity(NetworkConnection target, Vector3 targetVelocity)
     {
         m_Rigidbody2D.velocity = Vector3.SmoothDamp(m_Rigidbody2D.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
-
     }
 
 
     [TargetRpc]
     public void TargetAddForce(NetworkConnection target)
     {
-        m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
-
+        m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce),ForceMode2D.Impulse);
+       // jump = false;
     }
 
     [Command]
@@ -101,17 +103,14 @@ public class CharacterController2D : NetworkBehaviour
                 // ... flip the player.
                   //  Flip();
                 Flip();
-                Debug.Log(m_FacingRight);
-                Debug.Log("ennyi lett a scale: " + playerTransformLocalScale);
-
+               // TargetNameTextChange(connectionToClient, transform.localScale);
             }
             // Otherwise if the input is moving the player left and the player is facing right...
             else if (move < 0 && m_FacingRight)
             {
                  //  Flip();
                 Flip();
-                Debug.Log(m_FacingRight);
-                Debug.Log("ennyi lett a scale: " + playerTransformLocalScale);
+                //TargetNameTextChange(connectionToClient, transform.localScale);
             }
         }
         // If the player should jump...
@@ -120,11 +119,11 @@ public class CharacterController2D : NetworkBehaviour
             // Add a vertical force to the player.
             m_Grounded = false;
             TargetAddForce(connectionToClient);
-            //m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
+          // m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
+          //  jump = false;
         }
     }
 
-    
     private void Flip()
     {
         // Switch the way the player is labelled as facing.
@@ -135,7 +134,21 @@ public class CharacterController2D : NetworkBehaviour
         theScale.x *= -1;
         playerTransformLocalScale = theScale;
         transform.localScale = playerTransformLocalScale;
+        Player player = GetComponent<Player>();
+        
+
+       // player.nameText.transform.localScale = theScale;
+                
+        
+       // player.nameText.transform.localScale = new Vector3(-1,1,1);
         //  RpcFlip(theScale);
+    }
+
+    [TargetRpc]
+    public void TargetNameTextChange(NetworkConnection target, Vector3 localScale)
+    {
+        Player player = GetComponent<Player>();
+        player.nameText.transform.localScale = localScale;
     }
 
     [Command]

@@ -9,8 +9,6 @@ public class ClientManager : NetworkBehaviour
 {
     public GameManager gamemanager;
 
-
-
     public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();

@@ -15,15 +15,13 @@ public class GameManager : NetworkBehaviour
     public LightController lightController;
     Inventory inventory;
     public float timer = 0;
-
-
-    private BinaryFormatter bf = new BinaryFormatter();
-
+    
     public override void OnStartServer()
     {
         base.OnStartServer();
+        GameObject camera = GameObject.Find("Main Camera");
+        camera.SetActive(false);
         InitGame();
-
     }
 
     public override void OnStartClient()
@@ -33,8 +31,6 @@ public class GameManager : NetworkBehaviour
 
         Debug.Log("csatlakozott2");
     }
-
-
 
     void Awake()
     {
@@ -48,22 +44,16 @@ public class GameManager : NetworkBehaviour
             Destroy(gameObject);
         }
 
-        // DontDestroyOnLoad(gameObject);
-        // player = GetComponent<Transform>();
         map = GetComponent<Map>();
         enviromentMap = GetComponent<EnviromentController>();
         cam = Camera.main;
         lightController = GetComponent<LightController>();
-        
-
-
-        //  player.GetComponent<Transform>().position = new Vector3Int(0, 198, 0);
     }
     public void Start()
     {
        // InitGame();
        // RespawnPlayer();
-        inventory = Inventory.instance;
+      //  inventory = Inventory.instance;
     }
 
     void InitGame()
@@ -73,81 +63,7 @@ public class GameManager : NetworkBehaviour
             Debug.Log("bentvagyokhelo");
             map.GenerateMap();
             enviromentMap.CreateEnviroment(map.map, map.tilemap);
-        }
-
-       
-    }
-
-    [Command]
-    public void CmdLol(int random)
-    {
-        Debug.Log(random + "Ennti kaptamret ehzehelklo ");
-    }
-
-
-    void Update()
-    {
-       // if (isServer)
-        {
-        //    int random = Random.Range(20, 30);
-        //    Debug.Log(random);
-        //    CmdLol(random);
-        }
-
-        Transform playerTrans = player.GetComponent<Transform>();
-       
-        if (Input.GetMouseButtonDown(1))
-        {
-            Item usedItem = Inventory.inHand;
-            if (usedItem != null)
-            {
-                Debug.Log(usedItem.itemName);
-                Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                pos.z = 0;
-                Vector3Int posInt = new Vector3Int((int)pos.x, (int)pos.y, (int)pos.z);
-                Vector3 playerPos = new Vector3(playerTrans.position.x, playerTrans.position.y, 0);
-                Vector3Int playerPosInt = new Vector3Int((int)playerTrans.position.x, (int)playerTrans.position.y, 0);
-
-                switch (usedItem.blocktype)
-                {
-                    case Item.BlockType.FOREGROUND:
-                        if (!map.tilemap.HasTile(posInt) && playerPosInt != posInt &&
-                   posInt != new Vector3Int(playerPosInt.x, playerPosInt.y + 1, 0) && HasTileAround(posInt))
-                        {
-                            if (usedItem.canBePutDown == true)
-                            {
-                                map.map[posInt.x, posInt.y] = 1;
-                                map.tilemap.SetTile(posInt, usedItem.tile);
-                                inventory.useItem();
-                                inventory.inventoryUI[0].UpdateUI();
-                                inventory.inventoryUI[1].UpdateUI();
-                            }
-                        }
-                        break;
-                    case Item.BlockType.TORCH:
-                        if (lightController.GetTorch(posInt) == null && Vector3.Distance(playerPos, pos) < 3.0f
-                && !map.tilemap.HasTile(posInt) && enviromentMap.treeTileMap.HasTile(posInt) && !enviromentMap.torchTileMap.HasTile(posInt))
-                        {
-                            lightController.PutDownTorch(posInt);
-                            enviromentMap.torchTileMap.SetTile(posInt, enviromentMap.normalTorch);
-                            inventory.useItem();
-                            inventory.inventoryUI[0].UpdateUI();
-                            inventory.inventoryUI[1].UpdateUI();
-                        }
-                        break;
-                    case Item.BlockType.BACKGROUND:
-                        if (!enviromentMap.treeTileMap.HasTile(posInt) && Vector3.Distance(playerPos, pos) < 3.0f)
-                        {
-                            enviromentMap.treeTileMap.SetTile(posInt, usedItem.tile);
-                            inventory.useItem();
-                            inventory.inventoryUI[0].UpdateUI();
-                            inventory.inventoryUI[1].UpdateUI();
-                        }
-
-                        break;
-                }
-            }
-        }
+        }   
     }
 
     public bool HasTileAround(Vector3Int posInt)
@@ -160,27 +76,7 @@ public class GameManager : NetworkBehaviour
         return false;
     }
 
-    public void RespawnPlayer()
-    {
-        int randomX = 0;
-        bool foundASpot = false;
-
-        for (int i = 0; !foundASpot; ++i)
-        {
-            randomX = Random.Range(0, 200);
-            for (int y = (map.map.GetUpperBound(1)-1); y > 0; y--)
-            {
-               
-                if (map.tilemap.HasTile(new Vector3Int(randomX, y, 0)))
-                {
-                    player.GetComponent<Transform>().position = new Vector3Int(randomX, y + 1, 0);
-                    Debug.Log(randomX + "  " + y);
-                    foundASpot = true;
-                    break;
-                }
-            }
-        }
-    }
+   
 }
 
 

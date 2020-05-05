@@ -5,20 +5,33 @@ using UnityEngine;
 public class CraftingBook : MonoBehaviour
 {
     public List<CraftRecipe> craftingRecipes = new List<CraftRecipe>();
-    public static CraftingBook instance;
+    Inventory inventory;
 
     public void Awake()
     {
-        instance = this;
+    }
+
+    void Update()
+    {
+        if(inventory == null)
+        {
+            Player[] players = GameObject.FindObjectsOfType<Player>();
+
+            Debug.Log("Ennyi playert talált: " + players.GetUpperBound(0));
+
+            foreach (Player player in players)
+            {
+                if (player.isLocalPlayer)
+                {
+                    inventory = player.GetComponent<Inventory>();
+                    break;
+                }
+            }
+        }
     }
 
     public Item checkForRecipe(Item item1, Item item2, Item item3, Item item4, Item resultItem)
     {
-        //  Debug.Log(item1.itemName + " " + item1.stack);
-        // Debug.Log(item2.itemName + " " + item2.stack);
-        // Debug.Log(item3.itemName + " " + item3.stack);
-        // Debug.Log(item4.itemName + " " + item4.stack);
-
         Item[] items = new Item[5];
         items[0] = item1;
         items[1] = item2;
@@ -42,7 +55,7 @@ public class CraftingBook : MonoBehaviour
                             items[i].stack -= recipe.stacks[i];
                         }
                     }
-                    Inventory.instance.items[44] = newItem;
+                    inventory.items[44] = newItem;
                 }
                 else if (newItem.name.Equals(resultItem.name))
                 {

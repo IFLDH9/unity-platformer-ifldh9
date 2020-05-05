@@ -11,7 +11,25 @@ public class ItemDropHandler : MonoBehaviour, IDropHandler
 
     void Start()
     {
-        inventory = Inventory.instance;
+    }
+
+    void Update()
+    {
+        if(inventory == null)
+        {
+            Player[] players = GameObject.FindObjectsOfType<Player>();
+
+            Debug.Log("Ennyi playert talált: " + players.GetUpperBound(0));
+
+            foreach (Player player in players)
+            {
+                if (player.isLocalPlayer)
+                {
+                    inventory = player.GetComponent<Inventory>();
+                    break;
+                }
+            }
+        }
     }
 
     public void OnDrop(PointerEventData eventData)

@@ -32,9 +32,6 @@ public class PlayerMovement : NetworkBehaviour
                 jump = true;
                 animator.SetBool("isJumping", true);
             }
-
-
-
         }
     }
 
@@ -47,9 +44,18 @@ public class PlayerMovement : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
-            controller.CmdMove(horizontalMove * Time.fixedDeltaTime, false, jump);
+            controller.CmdMove(horizontalMove*0.02f, false, jump);
             jump = false;
         }
     }
 
+    public void OnMining()
+    {
+        animator.SetBool("isMining", true);
+    }
+
+    public void OnStoppingMining()
+    {
+        animator.SetBool("isMining", false);
+    }
 }

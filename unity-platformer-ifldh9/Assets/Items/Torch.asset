@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: Torch
   tile: {fileID: 11400000, guid: 0c0573e193937ef4a8b237351036bb20, type: 2}
   icon: {fileID: 5478439331833116526, guid: 02b999918f901b3429f90d7b5ae7b97d, type: 3}
-  stack: 34
+  stack: 30
   timer: 0
   canBePutDown: 1
   blocktype: 0

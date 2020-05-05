@@ -2,15 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering.LWRP;
+using UnityEngine.Networking;
 
-public class LightController : MonoBehaviour
+public class LightController : NetworkBehaviour
 {
 
     public Light2D globalLight2D;
     public Light2D torchLight2D;
     public List<Light2D> torches;
 
+    [SyncVar]
     public bool afternoon = true;
+
+    [SyncVar]
     public float dayNightTimer = 1.0f;
 
     void Start()
@@ -18,7 +22,7 @@ public class LightController : MonoBehaviour
         globalLight2D.intensity = 1;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         TimePasses();
     }
@@ -48,10 +52,10 @@ public class LightController : MonoBehaviour
         }
     }
 
-
     public void PutDownTorch(Vector3Int pos)
     {
        Light2D torch = Instantiate(torchLight2D,pos,Quaternion.identity);
+       //NetworkServer.Spawn(torch.gameObject);
        torches.Add(torch);
     }
 

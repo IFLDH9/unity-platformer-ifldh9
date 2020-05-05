@@ -1,6 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public class InventoryUI : MonoBehaviour
@@ -8,46 +9,68 @@ public class InventoryUI : MonoBehaviour
     public Transform itemsParent;
     public GameObject inventoryUI;
     Inventory inventory;
-    InventorySlot[] slots;
+   public InventorySlot[] slots;
     TextMeshProUGUI[] texts;
 
     public Transform craftingParent;
     InventorySlot[] craftingSlots;
     TextMeshProUGUI[] craftingTexts;
+
     void Start()
     {
-        inventory = Inventory.instance;
-        inventory.onItemChangedCallback += UpdateUI;
-        slots = itemsParent.GetComponentsInChildren<InventorySlot>();
-        texts = itemsParent.GetComponentsInChildren<TextMeshProUGUI>();
-        Debug.Log(slots.Length + "length");
-        if (craftingParent != null)
-        {
-            craftingSlots = craftingParent.GetComponentsInChildren<InventorySlot>();
-            craftingTexts = craftingParent.GetComponentsInChildren<TextMeshProUGUI>();
-            Debug.Log(craftingSlots.Length + "ez a hosssz");
-        }
-        UpdateUI();
+
     }
 
     void Update()
     {
-        if (Input.GetButtonDown("Inventory"))
+        if (inventory != null)
         {
-            inventoryUI.SetActive(!inventoryUI.activeSelf);
-            EventSystem es = EventSystem.current;
-            es.SetSelectedGameObject(null);
+            if (Input.GetKeyDown(KeyCode.I))
+            {
+                inventoryUI.SetActive(!inventoryUI.active);
+                EventSystem es = EventSystem.current;
+                EventSystem.current.SetSelectedGameObject(null);
+                if (craftingParent != null)
+                {
+                    backFromCraftingPanel();
+                }
+                inventory.Sort();
+                UpdateUI();
+            }
+
+            if (inventoryUI.active == true)
+            {
+              slots[inventory.select].button.Select();
+            }
+        }
+        else
+        {
+            Player[] players = GameObject.FindObjectsOfType<Player>();
+
+            foreach (Player player in players)
+            {
+                if (player.isLocalPlayer)
+                {
+                    inventory = player.GetComponent<Inventory>();
+                    break;
+                }
+            }
+            if (inventory != null)
+            { 
+            inventory.onItemChangedCallback += UpdateUI;
+            slots = itemsParent.GetComponentsInChildren<InventorySlot>();
+            texts = itemsParent.GetComponentsInChildren<TextMeshProUGUI>();
+            Debug.Log(slots.Length + "length");
             if (craftingParent != null)
             {
-                backFromCraftingPanel();
+                craftingSlots = craftingParent.GetComponentsInChildren<InventorySlot>();
+                craftingTexts = craftingParent.GetComponentsInChildren<TextMeshProUGUI>();
+                Debug.Log(craftingSlots.Length + "ez a hosssz");
             }
-           inventory.Sort();
-           UpdateUI();
+            UpdateUI();
         }
-        
-        if (inventoryUI.activeSelf)
-        {
-            slots[Inventory.select].button.Select();
+
+
         }
     }
     

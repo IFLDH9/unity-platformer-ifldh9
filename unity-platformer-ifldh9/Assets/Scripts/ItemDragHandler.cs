@@ -31,7 +31,14 @@ public class ItemDragHandler : MonoBehaviour,IDragHandler, IEndDragHandler, IBeg
     // Start is called before the first frame update
     void Start()
     {
-        id = GetComponentInParent<InventorySlot>().id;
+        if(GetComponentInParent<InventorySlot>() == null)
+        {
+            id = 45;
+        }
+        else
+        {
+            id = GetComponentInParent<InventorySlot>().id;
+        }
     }
 
     // Update is called once per frame

@@ -6,24 +6,18 @@ using UnityEngine.Networking;
 public class Inventory : NetworkBehaviour
 {
 
-    public static Inventory instance;
+   // public static Inventory instance;
     public Item[] items = new Item[40];
-    public static Item inHand = null;
-    public static int select = 0;
+    public Item inHand = null;
+    public int select = 0;
     public InventoryUI[] inventoryUI;
 
     public Item Torch;
-    CraftingBook craftingBook;
+     public CraftingBook craftingBook;
     public void Awake()
     {
-        instance = this;
         Item newItem = Instantiate(Torch);
         Add(newItem);
-        Debug.Log("inventory :)");
-        Debug.Log(select);
-        Debug.Log("added torch :)");
-        //  Debug.Log(inHand.itemName);
-        Debug.Log(select);
     }
 
     public delegate void OnItemChanged();
@@ -31,7 +25,8 @@ public class Inventory : NetworkBehaviour
 
     public void Start()
     {
-        craftingBook = CraftingBook.instance;
+        craftingBook = GetComponent<CraftingBook>();
+        inventoryUI = FindObjectsOfType<InventoryUI>();
     }
 
     public bool Add(Item item)
@@ -110,38 +105,36 @@ public class Inventory : NetworkBehaviour
 
     public void Update()
     {
-
-        if (Input.GetAxis("Mouse ScrollWheel") > 0)
+        if (isLocalPlayer)
         {
-            Debug.Log(select);
 
-            if (select < 9)
+            if (Input.GetAxis("Mouse ScrollWheel") > 0)
             {
-                select++;
-                inHand = items[select];
+
+                if (select < 9)
+                {
+                    select++;
+                    inHand = items[select];
+                }
+
             }
-
-
-            Debug.Log(inHand.itemName);
-            Debug.Log(inHand.stack);
-            Debug.Log(select);
-        }
-        else if (Input.GetAxis("Mouse ScrollWheel") < 0)
-        {
-            if (select > 0)
+            else if (Input.GetAxis("Mouse ScrollWheel") < 0)
             {
-                select--;
-                inHand = items[select];
+                if (select > 0)
+                {
+                    select--;
+                    inHand = items[select];
+                }
             }
-
-            Debug.Log(inHand.itemName);
-            Debug.Log(inHand.stack);
-            Debug.Log(select);
         }
     }
 
     public void Craft()
     {
+        if(craftingBook == null)
+        {
+            Debug.Log("crafting book uresw");
+        }
         craftingBook.checkForRecipe(items[40], items[41], items[42], items[43], items[44]);
         LocateZeroStacks();
         inventoryUI[0].UpdateUI();

@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 1142857221844278471}
   - component: {fileID: 4268756816548743638}
   - component: {fileID: 982623737808181030}
+  - component: {fileID: -5474642908252436308}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -124,7 +125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 979ad6b30f5ec3c49890f38fb57f2111, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_JumpForce: 700
+  m_JumpForce: 20
   m_MovementSmoothing: 0.051
   m_AirControl: 1
   m_WhatIsGround:
@@ -163,7 +164,7 @@ Rigidbody2D:
   m_AngularDrag: 0.05
   m_GravityScale: 3
   m_Material: {fileID: 6200000, guid: 2e1e5357411c202408bdc372eff3ce31, type: 2}
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
@@ -256,10 +257,13 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  inHand: {fileID: 0}
+  select: 0
   inventoryUI:
   - {fileID: 0}
   - {fileID: 0}
   Torch: {fileID: 11400000, guid: bfb2d8f06c04b3b40b0a986fe5f5be85, type: 2}
+  craftingBook: {fileID: 0}
 --- !u!114 &6594490632493853054
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -273,6 +277,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   craftingRecipes:
+  - {fileID: 11400000, guid: 21299e1819926aa479703e3fbeffc48b, type: 2}
   - {fileID: 11400000, guid: 4eabe85fc135c1a45802af6a70d84a81, type: 2}
   - {fileID: 11400000, guid: 52baf9ea12d55fc419125ea238abe5bb, type: 2}
 --- !u!114 &1812016540393216879
@@ -324,12 +329,12 @@ MonoBehaviour:
   m_SendInterval: 0.033333335
   m_SyncRotationAxis: 3
   m_RotationSyncCompression: 0
-  m_SyncSpin: 0
+  m_SyncSpin: 1
   m_MovementTheshold: 0.001
   m_VelocityThreshold: 0.0001
-  m_SnapThreshold: 5
+  m_SnapThreshold: 10
   m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
+  m_InterpolateMovement: 0.5
 --- !u!114 &4268756816548743638
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -342,8 +347,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55338d00f90487a45967d32a620007da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nameText: {fileID: 7467332317806910188, guid: a0ba8de4aa7dc054ebd5bb3803ec82f3,
+    type: 3}
   gameManager: {fileID: 0}
   cinemachineVirtualCamera: {fileID: 0}
+  timer: 0
+  focus: {x: 0, y: 0, z: 0}
+  OnMiningEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1373963227014522188}
+        m_MethodName: OnMining
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnStoppingMiningEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1373963227014522188}
+        m_MethodName: OnStoppingMining
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &982623737808181030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -364,6 +401,24 @@ MonoBehaviour:
   param3: 
   param4: 
   param5: 
+--- !u!114 &-5474642908252436308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1373963227014522228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6f89b53ff48516499615d6df73f6237, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  host: localhost
+  database: ifldh9
+  user: admin
+  password: admin
+  pooling: 0
+  loginScreen: {fileID: 0}
 --- !u!1 &1373963227713864110
 GameObject:
   m_ObjectHideFlags: 0

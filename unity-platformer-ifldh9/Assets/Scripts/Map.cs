@@ -13,18 +13,23 @@ public class Map : NetworkBehaviour
     public int rows;
     public DirtBlock dirtBlock;
     public StoneBlock stoneBlock;
+    public Wood woodBlock;
     private Transform mapHolder;
     public Tilemap tilemap;
     public int[,] map;
     public List<Byte> byteBuffer= new List<Byte>();
 
-
+    public void Awake()
+    {
+        TilemapRenderer tilemapRenderer = tilemap.GetComponent<TilemapRenderer>();
+        tilemapRenderer.chunkSize = new Vector3Int(64,64,64);
+        Debug.Log(tilemapRenderer.chunkSize + "chunk");
+    }
 
     void FixedUpdate()
     {
-        // UpdateMap(map, tilemap);
-
     }
+
 
     public void RenderFromCompleteMap()
     {
@@ -43,10 +48,13 @@ public class Map : NetworkBehaviour
                 {
                     tilemap.SetTile(new Vector3Int(x, y, 0), stoneBlock);
                 }
+                else if (map[x, y] == 4)
+                {
+                    tilemap.SetTile(new Vector3Int(x, y, 0), woodBlock);
+                }
             }
         }
     }
-
 
     public void RenderNewMap(int[,] map, Tilemap tilemap)
     {
@@ -131,33 +139,40 @@ public class Map : NetworkBehaviour
         float seed = Random.Range(1.0f, 9000.0f);
 
 
-        if (random == 0)
-        {
-            int interval = Random.Range(0, 100);
-            // map = PerlinNoise(map,seed);
-            map = PerlinNoiseSmooth(map, seed, interval);
-        }
-        else if (random == 1)
-        {
-            int minSectionWidth = Random.Range(0, 200);
-            map = RandomWalkTopSmoothed(map, seed, minSectionWidth);
-        }
-        else
-        {
-            map = RandomWalkTop(map, seed);
-        }
+        int interval = Random.Range(0, 100);
+      //  map = PerlinNoise(map, seed);
+        seed = Random.Range(1.0f, 9000000.0f);
+        // map = RandomWalkTop(map,seed);
+        //  map = PerlinNoiseSmooth(map, seed,2550);
+        //  map = PerlinNoise(map,5210);
+        //if (random == 0)
+        //{
+        //    int interval = Random.Range(0, 100);
+        //    // map = PerlinNoise(map,seed);
+        //    map = PerlinNoiseSmooth(map, seed, interval);
+        //}
+        //else if (random == 1)
+        //{
+        //    int minSectionWidth = Random.Range(0, 200);
+        Debug.Log(seed + "ennyi a seed :)" );
+            map = RandomWalkTopSmoothed(map, seed, 2);
+        //}
+        //else
+        //{
+        //    map = RandomWalkTop(map, seed);
+        //}
 
         //Cave
 
         float modifier = Random.Range(0.0f, 0.3f);
         // map = PerlinNoiseCave(map, modifier, false);
+       map = RandomWalkCave(map, seed, 2);
+       // seed = Random.Range(1.0f, 9000.0f);
         map = RandomWalkCave(map, seed, 2);
-        seed = Random.Range(1.0f, 9000.0f);
-        map = RandomWalkCave(map, seed, 2);
-        //map = DirectionalTunnel(map, 1, 5, 10, 4, 3);
-        // map = DirectionalTunnel(map, 5, 10, 10, 10, 10);
+        map = DirectionalTunnel(map, 1, 5, 10, 4, 3);
+         map = DirectionalTunnel(map, 5, 10, 10, 10, 10);
 
-        //  map = GenerateCellularAutomata(columns, rows, seed, 50, false);
+       // map = GenerateCellularAutomata(columns, rows, seed, 50, false);
         //  map = SmoothMooreCellularAutomata(map, false, 130);
     }
 
@@ -173,7 +188,7 @@ public class Map : NetworkBehaviour
             }
         }
 
-        for (int x = map.GetUpperBound(0); x < map.GetUpperBound(0); x++)
+        for (int x = 0; x < map.GetUpperBound(0); x++)
         {
             for (int y = map.GetUpperBound(1) / 8 * 5; y < map.GetUpperBound(1) - 5; y++)
             {
