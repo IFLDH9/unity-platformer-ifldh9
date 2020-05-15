@@ -14,16 +14,18 @@ public class PauseMenu : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.M) && !mainMenu.gameObject.activeSelf && !login.gameObject.activeSelf && !registration.gameObject.activeSelf)
         {
-            //Camera camera = FindObjectOfType<Camera>();
-            //AudioListener audioListener = camera.GetComponent<AudioListener>();
-            //audioListener.enabled = !audioListener.enabled;
+            if (AudioListener.volume == 0)
+            {
+                AudioListener.volume = 1;
+            }
+            else
+            {
+                AudioListener.volume = 0;
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.Escape) && !mainMenu.gameObject.activeSelf && !login.gameObject.activeSelf && !registration.gameObject.activeSelf)
         {
-            Camera camera = FindObjectOfType<Camera>();
-            AudioListener audioListener = camera.GetComponent<AudioListener>();
-            audioListener.enabled = !audioListener.enabled;
             if (GameIsPaused)
             {
                 Resume();

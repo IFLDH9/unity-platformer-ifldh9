@@ -46,35 +46,35 @@ public class BackgroundTileController : MonoBehaviour
         GenerateArray(columns, rows);
         for (int x = 0; x < map.GetUpperBound(0); x++)
         {
-            for (int y = map.GetUpperBound(1) - 1; y > map.GetUpperBound(1)/2-4; y--)
+            for (int y = map.GetUpperBound(1) - 1; y > map.GetUpperBound(1) / 2 - 4; y--)
             {
-                if (map[x, y] == 2  && UnityEngine.Random.Range(0, 100) > 80 &&
+                if (map[x, y] == 2 && UnityEngine.Random.Range(0, 100) > 80 &&
                     map[x, y + 1] == 0 && map[x, y + 2] == 0 && map[x, y + 3] == 0 && map[x, y + 4] == 0)
                 {
-                        int random = UnityEngine.Random.Range(1, 4);
-                        switch (random)
-                        {
-                            case 1:
-                                backgroundTilemap.SetTile(new Vector3Int(x, y + 1, 0), trees[0]);
-                                backgroundTileMatrix[x, y] = 1;
-                                break;
-                            case 2:
-                                backgroundTilemap.SetTile(new Vector3Int(x, y + 1, 0), trees[1]);
-                                backgroundTileMatrix[x, y] = 2;
-                                break;
-                            case 3:
-                                backgroundTilemap.SetTile(new Vector3Int(x, y + 1, 0), trees[2]);
-                                backgroundTileMatrix[x, y] = 3;
-                                break;
-                        }
+                    int random = UnityEngine.Random.Range(1, 4);
+                    switch (random)
+                    {
+                        case 1:
+                            backgroundTilemap.SetTile(new Vector3Int(x, y + 1, 0), trees[0]);
+                            backgroundTileMatrix[x, y] = 1;
+                            break;
+                        case 2:
+                            backgroundTilemap.SetTile(new Vector3Int(x, y + 1, 0), trees[1]);
+                            backgroundTileMatrix[x, y] = 2;
+                            break;
+                        case 3:
+                            backgroundTilemap.SetTile(new Vector3Int(x, y + 1, 0), trees[2]);
+                            backgroundTileMatrix[x, y] = 3;
+                            break;
+                    }
                     break;
-                    
+
                 }
-                else if(map[x,y] !=0)
+                else if (map[x, y] != 0)
                 {
                     backgroundTileMatrix[x, y] = 0;
                     break;
-                    
+
                 }
                 else
                 {

@@ -309,7 +309,7 @@ public class ForegroundTileController : NetworkBehaviour
     {
         int tunnelWidth = 1;
 
-        int x = Random.Range(15, map.GetUpperBound(0)-15);
+        int x = Random.Range(15, map.GetUpperBound(0) - 15);
 
         System.Random rand = new System.Random(seed.GetHashCode());
 
