@@ -42,7 +42,8 @@ namespace UnityEditor.Tilemaps
                 return;
             }
             prev_position = position;
-            if (brushTarget) {
+            if (brushTarget)
+            {
                 prev_brushTarget = brushTarget;
             }
             brushTarget = prev_brushTarget;
@@ -53,7 +54,7 @@ namespace UnityEditor.Tilemaps
 
             int index = Mathf.Clamp(Mathf.FloorToInt(GetPerlinValue(position, m_PerlinScale, k_PerlinOffset) * m_Prefabs.Length), 0, m_Prefabs.Length - 1);
             GameObject prefab = m_Prefabs[index];
-            GameObject instance = (GameObject) PrefabUtility.InstantiatePrefab(prefab);
+            GameObject instance = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
             if (instance != null)
             {
                 Undo.MoveGameObjectToScene(instance, brushTarget.scene, "Paint Prefabs");
@@ -91,7 +92,7 @@ namespace UnityEditor.Tilemaps
             int childCount = parent.childCount;
             Vector3 min = grid.LocalToWorld(grid.CellToLocalInterpolated(position));
             Vector3 max = grid.LocalToWorld(grid.CellToLocalInterpolated(position + Vector3Int.one));
-            Bounds bounds = new Bounds((max + min)*.5f, max - min);
+            Bounds bounds = new Bounds((max + min) * .5f, max - min);
 
             for (int i = 0; i < childCount; i++)
             {
@@ -104,7 +105,7 @@ namespace UnityEditor.Tilemaps
 
         private static float GetPerlinValue(Vector3Int position, float scale, float offset)
         {
-            return Mathf.PerlinNoise((position.x + offset)*scale, (position.y + offset)*scale);
+            return Mathf.PerlinNoise((position.x + offset) * scale, (position.y + offset) * scale);
         }
     }
 

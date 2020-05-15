@@ -3,11 +3,11 @@
 [CreateAssetMenu(fileName = "New DirtBlock", menuName = "Block/DirtBlock")]
 public class DirtBlock : Block
 {
-    public GameObject droppedItem;
+    [SerializeField] private GameObject droppedItem;
 
     private void Awake()
     {
-        breakable = true;       
+        breakable = true;
     }
 
     public override void Drop(Vector3 pos)

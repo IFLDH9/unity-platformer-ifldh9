@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using System.Linq;
 
 namespace UnityEditor.Tilemaps
 {
@@ -43,7 +43,7 @@ namespace UnityEditor.Tilemaps
                 Vector2Int startPos = new Vector2Int(lineStart.x, lineStart.y);
                 Vector2Int endPos = new Vector2Int(position.x, position.y);
                 if (startPos == endPos)
-                    base.Paint(grid, brushTarget, position);    
+                    base.Paint(grid, brushTarget, position);
                 else
                 {
                     foreach (var point in GetPointsOnLine(startPos, endPos, fillGaps))

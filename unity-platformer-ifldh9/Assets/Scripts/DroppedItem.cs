@@ -1,22 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class DroppedItem : MonoBehaviour
 {
     public Item item;
-    public float radius = 3f;
-    Player player;
-    Inventory inventory;
+    [SerializeField] private float radius = 3f;
+    private Player player;
+    private Inventory inventory;
 
-    void Start()
+    private void Start()
     {
         if (inventory == null && player == null)
         {
             Player[] players = GameObject.FindObjectsOfType<Player>();
-
-            Debug.Log("Ennyi playert talált: " + players.GetUpperBound(0));
-
             foreach (Player player in players)
             {
                 if (player.isLocalPlayer)
@@ -28,31 +23,26 @@ public class DroppedItem : MonoBehaviour
             }
         }
 
-
-        Item newItem =Instantiate(item);
+        Item newItem = Instantiate(item);
         item = newItem;
         Invoke("Despawn", 120);
     }
 
-    void Update()
+    private void Update()
     {
-
-       
-
         if (inventory != null && player != null)
         {
-            Debug.Log("bent vagyunk :)");
-        Vector3 diff = player.transform.position - transform.position;
-        float distance = diff.sqrMagnitude;
-        if (radius > distance)
-        {
-            if (inventory.Add(item))
+            Vector3 diff = player.transform.position - transform.position;
+            float distance = diff.sqrMagnitude;
+            if (radius > distance)
             {
-                inventory.inventoryUI[0].UpdateUI();
-                inventory.inventoryUI[1].UpdateUI();
-                Destroy(gameObject);
+                if (inventory.Add(item))
+                {
+                    inventory.inventoryUI[0].UpdateUI();
+                    inventory.inventoryUI[1].UpdateUI();
+                    Destroy(gameObject);
+                }
             }
-        }
         }
     }
 

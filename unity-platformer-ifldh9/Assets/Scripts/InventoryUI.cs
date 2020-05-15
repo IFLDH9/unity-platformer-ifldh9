@@ -1,27 +1,25 @@
 ﻿using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Networking;
-using UnityEngine.UI;
 
 public class InventoryUI : MonoBehaviour
 {
-    public Transform itemsParent;
-    public GameObject inventoryUI;
+    [SerializeField] private Transform itemsParent;
+    [SerializeField] private GameObject inventoryUI;
     Inventory inventory;
-   public InventorySlot[] slots;
+    [SerializeField] private InventorySlot[] slots;
     TextMeshProUGUI[] texts;
 
-    public Transform craftingParent;
+    [SerializeField] private Transform craftingParent;
     InventorySlot[] craftingSlots;
     TextMeshProUGUI[] craftingTexts;
 
-    void Start()
+    private void Start()
     {
-
+        this.gameObject.SetActive(false);
     }
 
-    void Update()
+    private void Update()
     {
         if (inventory != null)
         {
@@ -40,7 +38,7 @@ public class InventoryUI : MonoBehaviour
 
             if (inventoryUI.active == true)
             {
-              slots[inventory.select].button.Select();
+                slots[inventory.select].button.Select();
             }
         }
         else
@@ -56,24 +54,19 @@ public class InventoryUI : MonoBehaviour
                 }
             }
             if (inventory != null)
-            { 
-            inventory.onItemChangedCallback += UpdateUI;
-            slots = itemsParent.GetComponentsInChildren<InventorySlot>();
-            texts = itemsParent.GetComponentsInChildren<TextMeshProUGUI>();
-            Debug.Log(slots.Length + "length");
-            if (craftingParent != null)
             {
-                craftingSlots = craftingParent.GetComponentsInChildren<InventorySlot>();
-                craftingTexts = craftingParent.GetComponentsInChildren<TextMeshProUGUI>();
-                Debug.Log(craftingSlots.Length + "ez a hosssz");
+                inventory.onItemChangedCallback += UpdateUI;
+                slots = itemsParent.GetComponentsInChildren<InventorySlot>();
+                texts = itemsParent.GetComponentsInChildren<TextMeshProUGUI>();
+                if (craftingParent != null)
+                {
+                    craftingSlots = craftingParent.GetComponentsInChildren<InventorySlot>();
+                    craftingTexts = craftingParent.GetComponentsInChildren<TextMeshProUGUI>();
+                }
+                UpdateUI();
             }
-            UpdateUI();
-        }
-
-
         }
     }
-    
 
     public void UpdateUI()
     {

@@ -4,13 +4,13 @@ using System;
 using UnityEditor;
 #endif
 
-namespace UnityEngine.Tilemaps 
+namespace UnityEngine.Tilemaps
 {
     /// <summary>
     /// A Sprite with a Weight value for randomization.
     /// </summary>
     [Serializable]
-    public struct WeightedSprite 
+    public struct WeightedSprite
     {
         /// <summary>
         /// Sprite.
@@ -28,7 +28,7 @@ namespace UnityEngine.Tilemaps
     /// </summary>
     [Serializable]
     [CreateAssetMenu(fileName = "New Weighted Random Tile", menuName = "Tiles/Weighted Random Tile")]
-    public class WeightedRandomTile : Tile 
+    public class WeightedRandomTile : Tile
     {
         /// <summary>
         /// The Sprites used for randomizing output.
@@ -41,19 +41,19 @@ namespace UnityEngine.Tilemaps
         /// <param name="position">Position of the Tile on the Tilemap.</param>
         /// <param name="tilemap">The Tilemap the tile is present on.</param>
         /// <param name="tileData">Data to render the tile.</param>
-        public override void GetTileData(Vector3Int location, ITilemap tileMap, ref TileData tileData) 
+        public override void GetTileData(Vector3Int location, ITilemap tileMap, ref TileData tileData)
         {
             base.GetTileData(location, tileMap, ref tileData);
-            
+
             if (Sprites == null || Sprites.Length <= 0) return;
-            
+
             long hash = location.x;
             hash = hash + 0xabcd1234 + (hash << 15);
             hash = hash + 0x0987efab ^ (hash >> 11);
             hash ^= location.y;
             hash = hash + 0x46ac12fd + (hash << 7);
             hash = hash + 0xbe9730af ^ (hash << 11);
-            Random.InitState((int) hash);
+            Random.InitState((int)hash);
 
             // Get the cumulative weight of the sprites
             var cumulativeWeight = 0;
@@ -61,10 +61,12 @@ namespace UnityEngine.Tilemaps
 
             // Pick a random weight and choose a sprite depending on it
             var randomWeight = Random.Range(0, cumulativeWeight);
-            foreach (var spriteInfo in Sprites) {
+            foreach (var spriteInfo in Sprites)
+            {
                 randomWeight -= spriteInfo.Weight;
-                if (randomWeight < 0) {
-                    tileData.sprite = spriteInfo.Sprite;    
+                if (randomWeight < 0)
+                {
+                    tileData.sprite = spriteInfo.Sprite;
                     break;
                 }
             }
@@ -73,12 +75,13 @@ namespace UnityEngine.Tilemaps
 
 #if UNITY_EDITOR
     [CustomEditor(typeof(WeightedRandomTile))]
-    public class WeightedRandomTileEditor : Editor 
+    public class WeightedRandomTileEditor : Editor
     {
         private SerializedProperty m_Color;
         private SerializedProperty m_ColliderType;
 
-        private WeightedRandomTile Tile {
+        private WeightedRandomTile Tile
+        {
             get { return target as WeightedRandomTile; }
         }
 
@@ -88,30 +91,30 @@ namespace UnityEngine.Tilemaps
             m_ColliderType = serializedObject.FindProperty("m_ColliderType");
         }
 
-        public override void OnInspectorGUI() 
+        public override void OnInspectorGUI()
         {
             serializedObject.Update();
 
             EditorGUI.BeginChangeCheck();
 
             int count = EditorGUILayout.DelayedIntField("Number of Sprites", Tile.Sprites != null ? Tile.Sprites.Length : 0);
-            if (count < 0) 
+            if (count < 0)
                 count = 0;
 
-            if (Tile.Sprites == null || Tile.Sprites.Length != count) 
+            if (Tile.Sprites == null || Tile.Sprites.Length != count)
             {
                 Array.Resize(ref Tile.Sprites, count);
             }
 
-            if (count == 0) 
+            if (count == 0)
                 return;
 
             EditorGUILayout.LabelField("Place random sprites.");
             EditorGUILayout.Space();
 
-            for (int i = 0; i < count; i++) 
+            for (int i = 0; i < count; i++)
             {
-                Tile.Sprites[i].Sprite = (Sprite) EditorGUILayout.ObjectField("Sprite " + (i + 1), Tile.Sprites[i].Sprite, typeof(Sprite), false, null);
+                Tile.Sprites[i].Sprite = (Sprite)EditorGUILayout.ObjectField("Sprite " + (i + 1), Tile.Sprites[i].Sprite, typeof(Sprite), false, null);
                 Tile.Sprites[i].Weight = EditorGUILayout.IntField("Weight " + (i + 1), Tile.Sprites[i].Weight);
             }
 

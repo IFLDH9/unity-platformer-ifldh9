@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Tilemaps;
 
 [CreateAssetMenu(fileName = "New Item", menuName = "Item")]
@@ -10,18 +8,13 @@ public class Item : ScriptableObject
     public TileBase tile;
     public Sprite icon = null;
     public int stack = 0;
-    public float timer;
+    [SerializeField] private float timer;
     public bool canBePutDown;
     public BlockType blocktype;
 
     public enum BlockType
     {
         TORCH, BACKGROUND, FOREGROUND
-    }
-
-    public void Update()
-    {
-
     }
 
     void PickUp()

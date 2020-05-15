@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
-using UnityEngine;
 
 namespace UnityEngine.Tilemaps
 {
@@ -110,17 +107,17 @@ namespace UnityEngine.Tilemaps
                 case 2:
                 case 8:
                     return Matrix4x4.TRS(Vector3.zero, Quaternion.Euler(0f, 0f, -90f), Vector3.one);
-                case 3: 
+                case 3:
                 case 14:
                     return Matrix4x4.TRS(Vector3.zero, Quaternion.Euler(0f, 0f, -180f), Vector3.one);
-                case 6: 
+                case 6:
                 case 13:
                     return Matrix4x4.TRS(Vector3.zero, Quaternion.Euler(0f, 0f, -270f), Vector3.one);
             }
             return Matrix4x4.identity;
         }
     }
-    
+
 #if UNITY_EDITOR
     [CustomEditor(typeof(PipelineTile))]
     public class PipelineTileEditor : Editor
@@ -137,13 +134,13 @@ namespace UnityEngine.Tilemaps
         {
             EditorGUILayout.LabelField("Place sprites shown based on the number of tiles bordering it.");
             EditorGUILayout.Space();
-            
+
             EditorGUI.BeginChangeCheck();
-            tile.m_Sprites[0] = (Sprite) EditorGUILayout.ObjectField("None", tile.m_Sprites[0], typeof(Sprite), false, null);
-            tile.m_Sprites[2] = (Sprite) EditorGUILayout.ObjectField("One", tile.m_Sprites[2], typeof(Sprite), false, null);
-            tile.m_Sprites[1] = (Sprite) EditorGUILayout.ObjectField("Two", tile.m_Sprites[1], typeof(Sprite), false, null);
-            tile.m_Sprites[3] = (Sprite) EditorGUILayout.ObjectField("Three", tile.m_Sprites[3], typeof(Sprite), false, null);
-            tile.m_Sprites[4] = (Sprite) EditorGUILayout.ObjectField("Four", tile.m_Sprites[4], typeof(Sprite), false, null);
+            tile.m_Sprites[0] = (Sprite)EditorGUILayout.ObjectField("None", tile.m_Sprites[0], typeof(Sprite), false, null);
+            tile.m_Sprites[2] = (Sprite)EditorGUILayout.ObjectField("One", tile.m_Sprites[2], typeof(Sprite), false, null);
+            tile.m_Sprites[1] = (Sprite)EditorGUILayout.ObjectField("Two", tile.m_Sprites[1], typeof(Sprite), false, null);
+            tile.m_Sprites[3] = (Sprite)EditorGUILayout.ObjectField("Three", tile.m_Sprites[3], typeof(Sprite), false, null);
+            tile.m_Sprites[4] = (Sprite)EditorGUILayout.ObjectField("Four", tile.m_Sprites[4], typeof(Sprite), false, null);
             if (EditorGUI.EndChangeCheck())
                 EditorUtility.SetDirty(tile);
         }

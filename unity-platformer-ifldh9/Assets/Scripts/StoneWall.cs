@@ -3,7 +3,7 @@
 [CreateAssetMenu(fileName = "New Stone Wall", menuName = "Block/StoneWall")]
 public class StoneWall : Block
 {
-    public GameObject droppedItem;
+    [SerializeField] private GameObject droppedItem;
     private void Awake()
     {
         breakable = true;

@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ItemDragHandler : MonoBehaviour,IDragHandler, IEndDragHandler, IBeginDragHandler
+public class ItemDragHandler : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragHandler
 {
     public int id;
     Transform parentToReturnTo = null;
@@ -22,16 +20,14 @@ public class ItemDragHandler : MonoBehaviour,IDragHandler, IEndDragHandler, IBeg
     public void OnEndDrag(PointerEventData eventData)
     {
         this.transform.SetParent(parentToReturnTo);
-     //   Debug.Log(eventData.pointerDrag.transform.parent + "drop to " + gameObject.transform.parent);
         GetComponent<CanvasGroup>().blocksRaycasts = true;
         this.transform.localPosition = Vector3.zero;
-       
+
     }
 
-    // Start is called before the first frame update
     void Start()
     {
-        if(GetComponentInParent<InventorySlot>() == null)
+        if (GetComponentInParent<InventorySlot>() == null)
         {
             id = 45;
         }
@@ -39,11 +35,5 @@ public class ItemDragHandler : MonoBehaviour,IDragHandler, IEndDragHandler, IBeg
         {
             id = GetComponentInParent<InventorySlot>().id;
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

@@ -19,4 +19,4 @@ MonoBehaviour:
   - 
   stacks: 01000000010000000000000000000000
   result: {fileID: 11400000, guid: bfb2d8f06c04b3b40b0a986fe5f5be85, type: 2}
-  resultStack: 1
+  resultStack: 2

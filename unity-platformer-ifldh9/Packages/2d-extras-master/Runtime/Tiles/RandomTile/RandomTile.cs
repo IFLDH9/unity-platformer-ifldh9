@@ -39,7 +39,7 @@ namespace UnityEngine.Tilemaps
                 hash = (hash + 0xbe9730af) ^ (hash << 11);
                 var oldState = Random.state;
                 Random.InitState((int)hash);
-                tileData.sprite = m_Sprites[(int) (m_Sprites.Length * Random.value)];
+                tileData.sprite = m_Sprites[(int)(m_Sprites.Length * Random.value)];
                 Random.state = oldState;
             }
         }
@@ -59,7 +59,7 @@ namespace UnityEngine.Tilemaps
             m_Color = serializedObject.FindProperty("m_Color");
             m_ColliderType = serializedObject.FindProperty("m_ColliderType");
         }
-        
+
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
@@ -81,7 +81,7 @@ namespace UnityEngine.Tilemaps
 
             for (int i = 0; i < count; i++)
             {
-                tile.m_Sprites[i] = (Sprite) EditorGUILayout.ObjectField("Sprite " + (i+1), tile.m_Sprites[i], typeof(Sprite), false, null);
+                tile.m_Sprites[i] = (Sprite)EditorGUILayout.ObjectField("Sprite " + (i + 1), tile.m_Sprites[i], typeof(Sprite), false, null);
             }
 
             EditorGUILayout.Space();

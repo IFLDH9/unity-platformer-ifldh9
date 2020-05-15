@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BackGround : MonoBehaviour
 {
@@ -17,19 +15,15 @@ public class BackGround : MonoBehaviour
         savedOffset = mesh_Renderer.sharedMaterial.GetTextureOffset("_MainTex");
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if(body.velocity.x>0)
+        if (body.velocity.x > 0)
         {
-            float x = Time.time *scrollSpeed;
+            float x = Time.time * scrollSpeed;
             Vector2 offset = new Vector2(x, 0);
             mesh_Renderer.sharedMaterial.SetTextureOffset("_MainTex", offset);
         }
-       
-        
 
-     
     }
     void OnDisable()
     {

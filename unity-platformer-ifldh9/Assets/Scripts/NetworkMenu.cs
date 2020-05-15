@@ -1,51 +1,51 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public class NetworkMenu : MonoBehaviour
 {
-    public NetworkManager manager;
-    [SerializeField] public bool showGUI = true;
-    private TextMeshProUGUI text;
-    public TextMeshProUGUI errorText;
-    public Canvas canvas;
-    public Button joinButton;
-    public Button startServerButton;
-    public Button hostServerButton;
-    public GameObject loadingScreen;
+    [SerializeField] private NetworkManager manager;
+    [SerializeField] private bool showGUI = true;
+    [SerializeField] private TextMeshProUGUI text;
+    [SerializeField] private TextMeshProUGUI errorText;
+    [SerializeField] private Canvas canvas;
+    [SerializeField] private Button joinButton;
+    [SerializeField] private Button startServerButton;
+    [SerializeField] private GameObject loadingScreen;
+    [SerializeField] private Canvas registration;
 
-   
-
-    public GameObject loginScreen;
-    void Awake()
+    [SerializeField] private GameObject loginScreen;
+    private void Awake()
     {
         if (UnityEngine.Application.platform == RuntimePlatform.WebGLPlayer)
         {
             startServerButton.gameObject.SetActive(false);
-            hostServerButton.gameObject.SetActive(false);
         }
     }
 
-    void Start()
+    private void Start()
     {
         text = loginScreen.GetComponentInChildren<TextMeshProUGUI>();
         manager = FindObjectOfType<NetworkManager>();
     }
 
-   public void SetColor()
+    public void SetColor()
     {
-       text.color=new Color32(29,30,80,255);
+        text.color = new Color32(29, 30, 80, 255);
     }
 
-   public void SetBackColor()
+    public void SetBackColor()
     {
-        text.color = new Color32(255,255,255,255);
+        text.color = new Color32(255, 255, 255, 255);
     }
 
-    public void Update()
+    public void Registration()
+    {
+        registration.gameObject.SetActive(true);
+    }
+
+    private void Update()
     {
         if (!showGUI)
             return;
@@ -60,12 +60,9 @@ public class NetworkMenu : MonoBehaviour
     {
         NetworkClient client = manager.StartClient();
         client.RegisterHandler(MsgType.Disconnect, ConnectionError);
-        //client.RegisterHandler(MsgType.Connect, ConnectionSuccess);
         canvas.gameObject.SetActive(false);
         errorText.text = "Connecting...";
         loginScreen.SetActive(true);
-
-       
     }
 
     public void ConnectionSuccess(NetworkMessage netMsg)
@@ -81,16 +78,10 @@ public class NetworkMenu : MonoBehaviour
         manager.StopClient();
     }
 
-    public void StartHost()
-    {
-        canvas.gameObject.SetActive(false);
-        manager.StartHost();
-    }
-
     public void StartServer()
     {
-        canvas.gameObject.SetActive(false);
         manager.StartServer();
+        canvas.gameObject.SetActive(false);
     }
 
 }

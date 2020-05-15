@@ -63,7 +63,7 @@ namespace UnityEditor.Tilemaps
 
             object IEnumerator.Current { get { return Current; } }
 
-            void IDisposable.Dispose() {}
+            void IDisposable.Dispose() { }
         }
 
         /// <summary>
@@ -113,11 +113,11 @@ namespace UnityEditor.Tilemaps
                 var tilemap = brushTarget.GetComponent<Tilemap>();
                 if (tilemap == null)
                     return;
-                
+
                 Vector3Int min = position - pivot;
                 foreach (var startLocation in new SizeEnumerator(min, min + size, randomTileSetSize))
                 {
-                    var randomTileSet = randomTileSets[(int) (randomTileSets.Length * UnityEngine.Random.value)];
+                    var randomTileSet = randomTileSets[(int)(randomTileSets.Length * UnityEngine.Random.value)];
                     var randomBounds = new BoundsInt(startLocation, randomTileSetSize);
                     tilemap.SetTilesBlock(randomBounds, randomTileSet.randomTiles);
                 }
@@ -205,7 +205,7 @@ namespace UnityEditor.Tilemaps
                 Vector3Int min = position - randomBrush.pivot;
                 foreach (var startLocation in new RandomBrush.SizeEnumerator(min, min + randomBrush.size, randomBrush.randomTileSetSize))
                 {
-                    var randomTileSet = randomBrush.randomTileSets[(int) (randomBrush.randomTileSets.Length * UnityEngine.Random.value)];
+                    var randomTileSet = randomBrush.randomTileSets[(int)(randomBrush.randomTileSets.Length * UnityEngine.Random.value)];
                     var randomBounds = new BoundsInt(startLocation, randomBrush.randomTileSetSize);
                     int j = 0;
                     foreach (Vector3Int pos in randomBounds.allPositionsWithin)
@@ -231,9 +231,9 @@ namespace UnityEditor.Tilemaps
                 var tilemap = lastBrushTarget.GetComponent<Tilemap>();
                 if (tilemap == null)
                     return;
-                
+
                 tilemap.ClearAllEditorPreviewTiles();
-                
+
                 lastBrushTarget = null;
             }
             else
@@ -289,10 +289,10 @@ namespace UnityEditor.Tilemaps
 
                 for (int i = 0; i < randomTileSetCount; i++)
                 {
-                    EditorGUILayout.LabelField("Tile Set " + (i+1));
+                    EditorGUILayout.LabelField("Tile Set " + (i + 1));
                     for (int j = 0; j < randomBrush.randomTileSets[i].randomTiles.Length; ++j)
                     {
-                        randomBrush.randomTileSets[i].randomTiles[j] = (TileBase) EditorGUILayout.ObjectField("Tile " + (j+1), randomBrush.randomTileSets[i].randomTiles[j], typeof(TileBase), false, null);                        
+                        randomBrush.randomTileSets[i].randomTiles[j] = (TileBase)EditorGUILayout.ObjectField("Tile " + (j + 1), randomBrush.randomTileSets[i].randomTiles[j], typeof(TileBase), false, null);
                     }
                 }
             }

@@ -5,11 +5,11 @@ using UnityEngine.UI;
 public class InventorySlot : MonoBehaviour
 {
     public int id;
-    public Image icon;
+    [SerializeField] private Image icon;
     public Button button;
     public Item item;
 
-    void Start()
+    private void Start()
     {
         button = GetComponent<Button>();
     }
@@ -29,6 +29,4 @@ public class InventorySlot : MonoBehaviour
         icon.sprite = null;
         icon.enabled = false;
     }
-
-
 }

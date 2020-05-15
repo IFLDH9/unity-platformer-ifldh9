@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering.LWRP;
 using UnityEngine.Networking;
@@ -7,9 +6,9 @@ using UnityEngine.Networking;
 public class LightController : NetworkBehaviour
 {
 
-    public Light2D globalLight2D;
-    public Light2D torchLight2D;
-    public List<Light2D> torches;
+    [SerializeField] private Light2D globalLight2D;
+    [SerializeField] private Light2D torchLight2D;
+    [SerializeField] private List<Light2D> torches;
 
     [SyncVar]
     public bool afternoon = true;
@@ -27,11 +26,11 @@ public class LightController : NetworkBehaviour
         TimePasses();
     }
 
-    public void TimePasses()
+    private void TimePasses()
     {
         if (afternoon)
         {
-            dayNightTimer -= (Time.deltaTime / 50.0f) / 0.9f;
+            dayNightTimer -= (Time.deltaTime / 300.0f) / 0.9f;
 
             if (dayNightTimer < 0.1f)
             {
@@ -42,7 +41,7 @@ public class LightController : NetworkBehaviour
         }
         else
         {
-            dayNightTimer += (Time.deltaTime / 50.0f)/ 0.9f;
+            dayNightTimer += (Time.deltaTime / 300.0f) / 0.9f;
             if (dayNightTimer > 1.0f)
             {
                 dayNightTimer = 1.0f;
@@ -54,16 +53,15 @@ public class LightController : NetworkBehaviour
 
     public void PutDownTorch(Vector3Int pos)
     {
-       Light2D torch = Instantiate(torchLight2D,pos,Quaternion.identity);
-       //NetworkServer.Spawn(torch.gameObject);
-       torches.Add(torch);
+        Light2D torch = Instantiate(torchLight2D, pos, Quaternion.identity);
+        torches.Add(torch);
     }
 
     public Light2D GetTorch(Vector3Int pos)
     {
         foreach (Light2D torch in torches)
         {
-            if(torch.transform.position == pos)
+            if (torch.transform.position == pos)
             {
                 return torch;
             }

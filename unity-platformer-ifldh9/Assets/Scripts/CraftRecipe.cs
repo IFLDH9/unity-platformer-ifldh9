@@ -8,8 +8,9 @@ public class CraftRecipe : ScriptableObject
     public Item result;
     public int resultStack;
 
-    public bool isItGood(Item[] items)
+    public bool isItMatchingRecipe(Item[] items)
     {
+
         for (int i = 0; i < 4; i++)
         {
             switch (stacks[i])

@@ -192,7 +192,7 @@ namespace UnityEngine
                 /// <summary>
                 /// A Random Sprite will be output.
                 /// </summary>
-                Random, 
+                Random,
                 /// <summary>
                 /// A Sprite Animation will be output.
                 /// </summary>

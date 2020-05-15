@@ -103,7 +103,7 @@ public class TintTextureGenerator : MonoBehaviour
         GetGridInformation(grid).SetPositionProperty(position, "Tint", color);
         Refresh(grid, position);
     }
-    
+
     Vector3Int WorldToTexture(Vector3Int world)
     {
         return new Vector3Int(world.x + tintTexture.width / 2, world.y + tintTexture.height / 2, 0);

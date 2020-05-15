@@ -1,23 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class CraftingButton : MonoBehaviour
 {
-   public Button button;
-    Player player;
-    // Start is called before the first frame update
-    void Start()
-    {
-       
+    public Button button;
+    public Player player;
 
-    }
-
-    // Update is called once per frame
-    void Update()
+    public void Update()
     {
-        if ( player == null)
+        if (player == null)
         {
             Player[] players = GameObject.FindObjectsOfType<Player>();
 

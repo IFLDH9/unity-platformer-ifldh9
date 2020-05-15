@@ -1,13 +1,13 @@
-using UnityEngine;
-using UnityEngine.Tilemaps;
 using System.Linq;
 using System.Text.RegularExpressions;
+using UnityEngine;
 using UnityEngine.Scripting.APIUpdating;
+using UnityEngine.Tilemaps;
 
 namespace UnityEditor.Tilemaps
 {
     [MovedFrom(true, "UnityEditor")]
-    public class PopulateRuleOverideTileWizard : ScriptableWizard 
+    public class PopulateRuleOverideTileWizard : ScriptableWizard
     {
         [MenuItem("CONTEXT/RuleOverrideTile/Populate From Sprite Sheet")]
         static void MenuOption(MenuCommand menuCommand)
@@ -32,7 +32,8 @@ namespace UnityEditor.Tilemaps
         /// Creates a wizard for the target RuleOverrideTIle
         /// </summary>
         /// <param name="target">The RuleOverrideTile to be edited by the wizard</param>
-        public static void CreateWizard(RuleOverrideTile target) {
+        public static void CreateWizard(RuleOverrideTile target)
+        {
             PopulateRuleOverideTileWizard wizard = DisplayWizard<PopulateRuleOverideTileWizard>("Populate Override", "Populate");
             wizard.m_tileset = target;
         }
@@ -41,21 +42,26 @@ namespace UnityEditor.Tilemaps
         /// Creates a new PopulateRuleOverideTileWizard and copies the settings from an existing PopulateRuleOverideTileWizard
         /// </summary>
         /// <param name="oldWizard">The wizard to copy settings from</param>
-        public static void CloneWizard(PopulateRuleOverideTileWizard oldWizard) {
+        public static void CloneWizard(PopulateRuleOverideTileWizard oldWizard)
+        {
             PopulateRuleOverideTileWizard wizard = DisplayWizard<PopulateRuleOverideTileWizard>("Populate Override", "Populate");
             wizard.m_tileset = oldWizard.m_tileset;
             wizard.m_spriteSet = oldWizard.m_spriteSet;
         }
 
-        private void OnWizardUpdate() {
+        private void OnWizardUpdate()
+        {
             isValid = m_tileset != null && m_spriteSet != null;
         }
 
-        private void OnWizardCreate() {
-            try {
+        private void OnWizardCreate()
+        {
+            try
+            {
                 Populate();
             }
-            catch(System.Exception ex) {
+            catch (System.Exception ex)
+            {
                 EditorUtility.DisplayDialog("Auto-populate failed!", ex.Message, "Ok");
                 CloneWizard(this);
             }
@@ -68,17 +74,21 @@ namespace UnityEditor.Tilemaps
         /// of sprites, each sprite ends in an underscore followed by a number, and that they are
         /// intended to be equivalent in function.
         /// </summary>
-        private void Populate() {
+        private void Populate()
+        {
             string spriteSheet = AssetDatabase.GetAssetPath(m_spriteSet);
             Sprite[] overrideSprites = AssetDatabase.LoadAllAssetsAtPath(spriteSheet).OfType<Sprite>().ToArray();
 
             bool finished = false;
 
-            try {
+            try
+            {
                 Undo.RecordObject(m_tileset, "Auto-populate " + m_tileset.name);
 
-                foreach(RuleTile.TilingRule rule in m_tileset.m_Tile.m_TilingRules) {
-                    foreach(Sprite originalSprite in rule.m_Sprites) {
+                foreach (RuleTile.TilingRule rule in m_tileset.m_Tile.m_TilingRules)
+                {
+                    foreach (Sprite originalSprite in rule.m_Sprites)
+                    {
                         string spriteName = originalSprite.name;
                         string spriteNumber = Regex.Match(spriteName, @"_\d+$").Value;
 
@@ -90,13 +100,16 @@ namespace UnityEditor.Tilemaps
 
                 finished = true;
             }
-            catch(System.InvalidOperationException ex) {
+            catch (System.InvalidOperationException ex)
+            {
                 throw (new System.ArgumentOutOfRangeException("Sprite sheet mismatch", ex));
             }
-            finally {
+            finally
+            {
                 // We handle the undo like this in case we end up catching more exceptions.
                 // We want this to ALWAYS happen unless we complete the population.
-                if(!finished) {
+                if (!finished)
+                {
                     Undo.PerformUndo();
                 }
             }

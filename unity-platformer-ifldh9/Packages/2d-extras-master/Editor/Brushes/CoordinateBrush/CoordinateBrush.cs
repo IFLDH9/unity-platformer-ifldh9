@@ -8,7 +8,7 @@ namespace UnityEditor.Tilemaps
     /// </summary>
     [CustomGridBrush(true, false, false, "Coordinate Brush")]
     [CreateAssetMenu(fileName = "New Coordinate Brush", menuName = "Brushes/Coordinate Brush")]
-    public class CoordinateBrush : GridBrush 
+    public class CoordinateBrush : GridBrush
     {
     }
 
@@ -32,7 +32,8 @@ namespace UnityEditor.Tilemaps
             base.OnPaintSceneGUI(grid, brushTarget, position, tool, executing);
 
             var labelText = "Pos: " + position.position;
-            if (position.size.x > 1 || position.size.y > 1) {
+            if (position.size.x > 1 || position.size.y > 1)
+            {
                 labelText += " Size: " + position.size;
             }
 

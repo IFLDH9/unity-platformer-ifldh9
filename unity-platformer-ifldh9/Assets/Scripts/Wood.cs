@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Wood", menuName = "Block/Wood")]
 public class Wood : Block
 {
-    public GameObject droppedItem;
+    [SerializeField] private GameObject droppedItem;
     private void Awake()
     {
         breakable = true;

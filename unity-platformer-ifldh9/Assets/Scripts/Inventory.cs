@@ -1,20 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Networking;
 
 public class Inventory : NetworkBehaviour
 {
-
-   // public static Inventory instance;
     public Item[] items = new Item[40];
     public Item inHand = null;
     public int select = 0;
     public InventoryUI[] inventoryUI;
 
-    public Item Torch;
-     public CraftingBook craftingBook;
-    public void Awake()
+    [SerializeField] private Item Torch;
+    [SerializeField] private CraftingBook craftingBook;
+    private void Awake()
     {
         Item newItem = Instantiate(Torch);
         Add(newItem);
@@ -23,7 +19,7 @@ public class Inventory : NetworkBehaviour
     public delegate void OnItemChanged();
     public OnItemChanged onItemChangedCallback;
 
-    public void Start()
+    private void Start()
     {
         craftingBook = GetComponent<CraftingBook>();
         inventoryUI = FindObjectsOfType<InventoryUI>();
@@ -31,13 +27,11 @@ public class Inventory : NetworkBehaviour
 
     public bool Add(Item item)
     {
-        if (item.stack > 0)
+        if (item != null && item.stack > 0)
         {
-            Debug.Log(item.itemName + "has been added");
             Item listItem = GetItem(item);
             if (listItem != null)
             {
-                Debug.Log(listItem.name + " " + listItem.stack.ToString());
                 listItem.stack += item.stack;
                 return true;
             }
@@ -103,8 +97,13 @@ public class Inventory : NetworkBehaviour
         return -1;
     }
 
-    public void Update()
+    private void Update()
     {
+        if (inventoryUI.Length != 2)
+        {
+            inventoryUI = FindObjectsOfType<InventoryUI>();
+        }
+
         if (isLocalPlayer)
         {
 
@@ -131,10 +130,6 @@ public class Inventory : NetworkBehaviour
 
     public void Craft()
     {
-        if(craftingBook == null)
-        {
-            Debug.Log("crafting book uresw");
-        }
         craftingBook.checkForRecipe(items[40], items[41], items[42], items[43], items[44]);
         LocateZeroStacks();
         inventoryUI[0].UpdateUI();
@@ -167,9 +162,9 @@ public class Inventory : NetworkBehaviour
 
     public void LocateZeroStacks()
     {
-        for (int i =40; i < items.Length; i++)
+        for (int i = 40; i < items.Length; i++)
         {
-            if (items[i]!=null && 0 >= items[i].stack)
+            if (items[i] != null && 0 >= items[i].stack)
             {
                 items[i] = null;
             }

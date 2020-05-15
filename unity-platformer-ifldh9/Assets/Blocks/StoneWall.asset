@@ -19,4 +19,5 @@ MonoBehaviour:
   m_TilingRules: []
   breakable: 1
   animation: {fileID: 0}
-  droppedItem: {fileID: 0}
+  droppedItem: {fileID: 5507929504029239423, guid: 079f26d33c4c74c479f30b98d5124911,
+    type: 3}

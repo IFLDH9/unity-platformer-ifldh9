@@ -3,7 +3,7 @@
 [CreateAssetMenu(fileName = "New Torch", menuName = "Block/Torch")]
 public class Torch : Block
 {
-    public GameObject droppedItem;
+    [SerializeField] private GameObject droppedItem;
 
     private void Awake()
     {

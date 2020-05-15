@@ -12,7 +12,7 @@ public class PlayerMovement : NetworkBehaviour
     [SyncVar]
     float horizontalMove = 0f;
     [SyncVar]
-    bool jump = false;
+    public bool jump = false;
 
     void Start()
     {
@@ -35,7 +35,7 @@ public class PlayerMovement : NetworkBehaviour
         }
     }
 
-   public void OnLanding ()
+    public void OnLanding()
     {
         animator.SetBool("isJumping", false);
     }
@@ -44,7 +44,7 @@ public class PlayerMovement : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
-            controller.CmdMove(horizontalMove*0.02f, false, jump);
+            controller.CmdMove(horizontalMove * 0.02f, false, jump);
             jump = false;
         }
     }

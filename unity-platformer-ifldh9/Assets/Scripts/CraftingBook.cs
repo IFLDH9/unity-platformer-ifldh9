@@ -1,23 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class CraftingBook : MonoBehaviour
 {
-    public List<CraftRecipe> craftingRecipes = new List<CraftRecipe>();
+    [SerializeField] private List<CraftRecipe> craftingRecipes = new List<CraftRecipe>();
     Inventory inventory;
 
-    public void Awake()
+    private void Update()
     {
-    }
-
-    void Update()
-    {
-        if(inventory == null)
+        if (inventory == null)
         {
             Player[] players = GameObject.FindObjectsOfType<Player>();
-
-            Debug.Log("Ennyi playert talált: " + players.GetUpperBound(0));
 
             foreach (Player player in players)
             {
@@ -41,7 +34,7 @@ public class CraftingBook : MonoBehaviour
 
         foreach (CraftRecipe recipe in craftingRecipes)
         {
-            if (recipe.isItGood(items))
+            if (recipe.isItMatchingRecipe(items))
             {
                 Item newItem = Instantiate(recipe.result);
                 newItem.stack = recipe.resultStack;

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace UnityEditor
 {
@@ -9,7 +6,7 @@ namespace UnityEditor
     [CanEditMultipleObjects]
     internal class IsometricRuleTileEditor : RuleTileEditor
     {
-        private static readonly int[, ] s_Arrows =
+        private static readonly int[,] s_Arrows =
         {
             { 3, 0, 1 },
             { 6, 9, 2 },
@@ -22,7 +19,7 @@ namespace UnityEditor
             int index = 0;
             float w = rect.width / 3f;
             float h = rect.height / 3f;
-            
+
             // Grid
             for (int y = 0; y <= 3; y++)
             {
@@ -48,8 +45,8 @@ namespace UnityEditor
                 for (int x = 0; x <= 2; x++)
                 {
                     Rect r = new Rect(
-                        rect.xMin + ((x + y) * rect.width) / 6, 
-                        rect.yMin + ((2 - x + y) * rect.height) / 6, 
+                        rect.xMin + ((x + y) * rect.width) / 6,
+                        rect.yMin + ((2 - x + y) * rect.height) / 6,
                         w - 1, h - 1);
                     if (x != 1 || y != 1)
                     {

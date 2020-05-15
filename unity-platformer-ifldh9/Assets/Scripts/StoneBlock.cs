@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Stone Block", menuName = "Block/StoneBlock")]
 public class StoneBlock : Block
 {
-    public GameObject droppedItem;
+    [SerializeField] private GameObject droppedItem;
 
     private void Awake()
     {

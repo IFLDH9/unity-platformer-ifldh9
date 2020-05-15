@@ -1,5 +1,3 @@
-using System.Linq;
-using System.Reflection;
 using UnityEngine;
 
 namespace UnityEditor
@@ -12,22 +10,22 @@ namespace UnityEditor
         {
             new Vector2(2f, 1f), new Vector2(1.5f, 2f), new Vector2(0.5f, 2f), new Vector2(0f, 1f), new Vector2(0.5f, 0f), new Vector2(1.5f, 0f)
         };
-        private static readonly int[] s_PointedTopArrows = {5, 8, 6, 3, 0, 2};
+        private static readonly int[] s_PointedTopArrows = { 5, 8, 6, 3, 0, 2 };
         private static readonly Vector2[] s_FlatTopPositions =
         {
             new Vector2(1f, 0f), new Vector2(2f, 0.5f), new Vector2(2f, 1.5f), new Vector2(1f, 2f), new Vector2(0f, 1.5f), new Vector2(0f, 0.5f)
         };
-        private static readonly int[] s_FlatTopArrows = {1, 2, 8, 7, 6, 0};
+        private static readonly int[] s_FlatTopArrows = { 1, 2, 8, 7, 6, 0 };
 
         internal override void RuleMatrixOnGUI(RuleTile ruleTile, Rect rect, RuleTile.TilingRule tilingRule)
         {
-            var hexTile = (HexagonalRuleTile) ruleTile;
+            var hexTile = (HexagonalRuleTile)ruleTile;
             bool flatTop = hexTile.m_FlatTop;
 
             Handles.color = EditorGUIUtility.isProSkin ? new Color(1f, 1f, 1f, 0.2f) : new Color(0f, 0f, 0f, 0.2f);
             float w = rect.width / 3f;
             float h = rect.height / 3f;
-            
+
             // Grid
             if (flatTop)
             {
@@ -67,7 +65,7 @@ namespace UnityEditor
                     }
                 }
             }
-            
+
             // Icons
             Handles.color = Color.white;
             for (int index = 0; index < hexTile.neighborCount; ++index)
